@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eureka Residential Secondary School</title>
+    <meta
+      name="description"
+      content="Eureka Residential Secondary School in Dharan, Nepal. In Pursuit of Excellence since 1994."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Sora:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="admission-modal" id="admission-modal" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" aria-label="Close admission notice">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <p class="eyebrow">New Admission 2083</p>
+        <h2 id="modal-title">Admission Open for PG to Grade XII</h2>
+        <p>
+          Visit the front desk or send an inquiry to begin the entrance and interaction process.
+        </p>
+        <a class="btn btn-primary" href="#contact">Apply now</a>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <div class="top-strip">
+        <div class="container top-strip-inner">
+          <a href="#admission">New Admission 2083 (2026/27)</a>
+          <span>Established 2050 B.S. / 1994 A.D.</span>
+        </div>
+      </div>
+
+      <nav class="navbar" aria-label="Primary navigation">
+        <div class="container nav-inner">
+          <a class="brand" href="#home" aria-label="Eureka home">
+            <span class="brand-mark">
+              <img src="images/school building.jpg" alt="" />
+            </span>
+            <span>
+              <strong>Eureka</strong>
+              <small>Residential Secondary School</small>
+            </span>
+          </a>
+
+          <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          </button>
+
+          <div class="nav-menu" id="nav-menu">
+            <a class="nav-link active" href="#home">Home</a>
+            <a class="nav-link" href="#about">About Us</a>
+            <div class="nav-dropdown">
+              <button class="nav-link dropdown-toggle" type="button" aria-expanded="false">
+                Our Programs <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#programs">Pre-Primary</a>
+                <a href="#programs">Primary Level</a>
+                <a href="#programs">Basic Level</a>
+                <a href="#programs">Secondary Level</a>
+                <a href="#programs">Grade XI-XII</a>
+              </div>
+            </div>
+            <a class="nav-link" href="#admission">Admission</a>
+            <div class="nav-dropdown">
+              <button class="nav-link dropdown-toggle" type="button" aria-expanded="false">
+                Resources <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#news">News & Notices</a>
+                <a href="#downloads">Downloads</a>
+                <a href="#results">Results</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#faqs">FAQs</a>
+              </div>
+            </div>
+            <a class="nav-link" href="#life">Life at Eureka</a>
+            <a class="nav-link" href="#contact">Contact</a>
+            <a class="nav-cta" href="#contact">Enquire Now</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero-bg">
+          <img src="images/school building.jpg" alt="Eureka school building" />
+        </div>
+        <div class="container hero-inner">
+          <div class="hero-content">
+            <p class="hero-kicker">Eureka Residential Secondary School &bull; Dharan-1</p>
+            <h1 id="hero-title">Helping students pursue excellence with discipline and confidence</h1>
+            <p>
+              From Montessori to Grade XII, Eureka blends strong academics, Project-Based Learning,
+              technology, culture, and character formation.
+            </p>
+            <form class="hero-search" data-form-message="Search captured.">
+              <label class="sr-only" for="site-search">Search Eureka</label>
+              <input id="site-search" type="search" placeholder="Search programs, admissions, notices" />
+              <button type="submit" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              </button>
+            </form>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#about">Discover Us</a>
+              <a class="btn btn-secondary" href="#contact">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="social-rail" aria-label="Social links">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+        </div>
+      </section>
+
+      <section class="split-band aqua" id="about">
+        <div class="container split-layout">
+          <div class="section-copy">
+            <p class="eyebrow">About Eureka</p>
+            <h2>Pave your path forward with Eureka Residential Secondary School</h2>
+            <p>
+              Founded in 1994, Eureka is one of Dharan's leading schools, educating 1,600+
+              students in a disciplined, safe, and student-centered environment.
+            </p>
+            <a class="btn btn-primary" href="#why">Learn More</a>
+          </div>
+          <div class="feature-accordion" aria-label="Eureka feature summary">
+            <article class="feature-card expanded">
+              <button type="button" aria-expanded="true">
+                Our Programs <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+              </button>
+              <p>
+                Montessori, Pre-Primary, Primary, Basic, Secondary, and Grade XI-XII programs
+                supported by labs, digital classrooms, libraries, and clubs.
+              </p>
+              <a href="#programs">Get started</a>
+            </article>
+            <article class="feature-card" id="news">
+              <button type="button" aria-expanded="false">
+                Eureka Life <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+              </button>
+              <p>
+                Students participate in sports, yoga, clubs, environment programs, field visits,
+                public speaking, and cultural celebrations.
+              </p>
+              <a href="#life">Get started</a>
+            </article>
+            <article class="feature-card">
+              <button type="button" aria-expanded="false">
+                News & Notices <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
+              </button>
+              <p>
+                Follow admission schedules, exam updates, achievements, upcoming events, and
+                school announcements.
+              </p>
+              <a href="#news">Get started</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="programs-section" id="programs">
+        <div class="container">
+          <div class="section-heading centered">
+            <p class="eyebrow">Our Programs</p>
+            <h2>Learn Today, Lead Tomorrow with Eureka</h2>
+            <p>
+              A complete school journey from early childhood to Grade XII, designed for confident,
+              disciplined, and capable learners.
+            </p>
+          </div>
+          <div class="program-grid">
+            <article class="program-card">
+              <img src="images/pre primary.jpg" alt="Pre-primary students at Eureka" />
+              <div>
+                <h3>Pre-Primary & Primary</h3>
+                <p>
+                  Foundational literacy, numeracy, creativity, socialization, practical life skills,
+                  and joyful activity-based learning.
+                </p>
+                <a class="btn btn-teal" href="#contact">Get Started</a>
+              </div>
+            </article>
+            <article class="program-card">
+              <img src="images/secondary level.jpg" alt="Secondary level Eureka students" />
+              <div>
+                <h3>Basic & Secondary Level</h3>
+                <p>
+                  Science labs, computer labs, digital classrooms, weekly tests, public speaking,
+                  counseling, and strong SEE preparation.
+                </p>
+                <a class="btn btn-teal" href="#contact">Get Started</a>
+              </div>
+            </article>
+            <article class="program-card">
+              <img src="images/students with smart board.jpg" alt="Students learning with smart board" />
+              <div>
+                <h3>Grade XI-XII</h3>
+                <p>
+                  Science, Management, Humanities, and Hotel Management pathways with seminar-style
+                  learning and practical support.
+                </p>
+                <a class="btn btn-teal" href="#contact">Get Started</a>
+              </div>
+            </article>
+          </div>
+          <div class="center-action">
+            <a class="btn btn-primary" href="#contact">Explore More</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="impact aqua" id="life">
+        <div class="container impact-layout">
+          <div>
+            <p class="eyebrow">Testimonials</p>
+            <h2>Voices of Impact</h2>
+            <p>
+              Experience the school life that supports academic confidence, strong habits,
+              leadership, wellness, and creativity.
+            </p>
+          </div>
+          <div class="testimonial-track" aria-label="Testimonials">
+            <article>
+              <img src="images/staffs.jpg" alt="Eureka staff group" />
+              <h3>Dedicated Team</h3>
+              <p>Teachers</p>
+            </article>
+            <article>
+              <img src="images/students doing yoga.jpg" alt="Students doing yoga" />
+              <h3>Balanced Growth</h3>
+              <p>Wellness</p>
+            </article>
+            <article>
+              <img src="images/4 gpa.jpg" alt="Eureka GPA achievers" />
+              <h3>Strong Results</h3>
+              <p>Students</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-section" id="results">
+        <div class="container stats-grid">
+          <div><strong>30+</strong><span>Years of Excellence</span></div>
+          <div><strong>1,600+</strong><span>Students</span></div>
+          <div><strong>100%</strong><span>SEE Result</span></div>
+          <div><strong>4.0</strong><span>GPA Achievers</span></div>
+        </div>
+      </section>
+
+      <section class="why-section" id="why">
+        <div class="container">
+          <div class="section-heading centered">
+            <p class="eyebrow">Why Eureka?</p>
+            <h2>Eureka has been shaping disciplined, creative, and confident learners</h2>
+            <p>
+              Our program focuses on strong academics, values, technology, wellness, and global
+              readiness.
+            </p>
+          </div>
+          <div class="why-layout">
+            <article class="orange-panel">
+              <h3>Education Is The Key</h3>
+              <ul>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Project-Based Learning</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Smart classrooms and labs</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Culture and discipline</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Clubs, sports, yoga, and CAS</li>
+                <li><i class="fa-solid fa-check" aria-hidden="true"></i> Hostel and transport support</li>
+              </ul>
+            </article>
+            <div class="why-photo">
+              <img src="images/students in house dress.jpg" alt="Eureka students in house dress" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="gallery-section aqua" id="gallery">
+        <div class="container">
+          <div class="section-heading centered">
+            <p class="eyebrow">Gallery</p>
+            <h2>Capturing Eureka Students' Journey</h2>
+            <p>Step into our gallery and witness moments from academics, sports, culture, and community.</p>
+          </div>
+          <div class="gallery-shell">
+            <button class="gallery-control prev" type="button" aria-label="Previous gallery image">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <div class="gallery-track">
+              <img class="active" src="images/volleyball.jpg" alt="Students playing volleyball" />
+              <img src="images/world evironment day.jpg" alt="World Environment Day program" />
+              <img src="images/christmas celebration.jpg" alt="Christmas celebration at Eureka" />
+              <img src="images/table tennis.jpg" alt="Students playing table tennis" />
+            </div>
+            <button class="gallery-control next" type="button" aria-label="Next gallery image">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="admission-band" id="admission">
+        <div class="container admission-layout">
+          <div>
+            <p class="eyebrow">Admissions</p>
+            <h2>Prepare your child for a confident academic future</h2>
+            <p>
+              Admission is open for Montessori to Grade XII. Submit an inquiry and the school team
+              will guide you through forms, entrance, and interaction dates.
+            </p>
+          </div>
+          <a class="btn btn-primary" href="#contact">Get Admission Info</a>
+        </div>
+      </section>
+
+      <section class="documents-section aqua" id="downloads">
+        <div class="container document-layout">
+          <div class="document-intro">
+            <h2>Find Document</h2>
+            <p>Discover essential documents for your academic journey at Eureka.</p>
+          </div>
+          <article class="document-card">
+            <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+            <div>
+              <h3>Eureka Calendar</h3>
+              <p>Stay organized with key academic dates and events.</p>
+            </div>
+          </article>
+          <article class="document-card">
+            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+            <div>
+              <h3>School Prospectus</h3>
+              <p>Explore programs, values, facilities, and student life.</p>
+            </div>
+          </article>
+          <article class="document-card">
+            <i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i>
+            <div>
+              <h3>Admission Form</h3>
+              <p>Begin your admission process with the required details.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="faq-section" id="faqs">
+        <div class="container faq-layout">
+          <div class="section-heading centered">
+            <p class="eyebrow">FAQs</p>
+            <h2>Explore More About Eureka</h2>
+            <p>Eureka is ready to make your pathway clear and successful.</p>
+          </div>
+          <div class="faq-list">
+            <details open>
+              <summary>How can I apply for admission at Eureka?</summary>
+              <p>
+                You can contact the school, visit the front desk at Dharan-1, or send an online
+                inquiry through the contact form below.
+              </p>
+            </details>
+            <details>
+              <summary>What levels does Eureka offer?</summary>
+              <p>
+                Eureka offers Montessori / Playgroup through Grade XII, including Science,
+                Management, Humanities, and Hotel Management pathways where applicable.
+              </p>
+            </details>
+            <details>
+              <summary>Where is Eureka located?</summary>
+              <p>Dharan-1, Laxmi Sadak, Sunsari, Koshi Province, Nepal.</p>
+            </details>
+            <details>
+              <summary>What facilities are available?</summary>
+              <p>
+                Science labs, computer labs, ICT hall, smart boards, libraries, seminar halls,
+                canteen, hostel options, CCTV, garden areas, and transport services.
+              </p>
+            </details>
+            <details>
+              <summary>Why choose Eureka?</summary>
+              <p>
+                Eureka combines PBL, differentiated instruction, technology, discipline, clubs,
+                sports, wellness, and a long record of academic achievement.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact">
+        <div class="container contact-layout">
+          <div class="contact-copy">
+            <p class="eyebrow">Contact Us</p>
+            <h2>Eureka Contact Form</h2>
+            <p>
+              Get in touch with Eureka Residential Secondary School to start your journey. Fill out
+              the form and we will contact you shortly.
+            </p>
+          </div>
+          <form class="contact-form" data-form-message="Thank you. Eureka will contact you shortly.">
+            <label>
+              <span>Your Name</span>
+              <input name="name" type="text" required />
+            </label>
+            <label>
+              <span>Your Number</span>
+              <input name="phone" type="tel" required />
+            </label>
+            <label>
+              <span>Your Email</span>
+              <input name="email" type="email" />
+            </label>
+            <label>
+              <span>Program</span>
+              <select name="program" required>
+                <option value="">Choose a program</option>
+                <option>Pre-Primary</option>
+                <option>Basic Level</option>
+                <option>Secondary Level</option>
+                <option>Grade XI-XII</option>
+              </select>
+            </label>
+            <label class="full-field">
+              <span>Message</span>
+              <textarea name="message" rows="4"></textarea>
+            </label>
+            <button class="btn btn-primary full-field" type="submit">Contact Us</button>
+            <p class="form-status full-field" role="status"></p>
+          </form>
+        </div>
+      </section>
+
+      <section class="newsletter-strip">
+        <div class="container newsletter-layout">
+          <a class="brand footer-brand" href="#home" aria-label="Eureka home">
+            <span class="brand-mark">
+              <img src="images/school building.jpg" alt="" />
+            </span>
+            <span>
+              <strong>Eureka</strong>
+              <small>Residential Secondary School</small>
+            </span>
+          </a>
+          <div>
+            <h2>Join our Newsletter</h2>
+            <p>Subscribe to get the latest updates and news.</p>
+          </div>
+          <form class="newsletter-form" data-form-message="You are subscribed.">
+            <label class="sr-only" for="newsletter-email">Email</label>
+            <input id="newsletter-email" type="email" placeholder="Email" required />
+            <button type="submit">Subscribe Now</button>
+            <p class="form-status" role="status"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <section>
+          <h2>About</h2>
+          <h3>Forge your path forward with Eureka</h3>
+          <p>
+            Eureka Residential Secondary School has served Dharan since 1994 with a disciplined
+            environment, strong academics, and holistic student development.
+          </p>
+        </section>
+        <section>
+          <h2>Quick Links</h2>
+          <p>Our important links</p>
+          <ul>
+            <li><a href="#programs">Our Programs</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#downloads">Downloads</a></li>
+            <li><a href="#life">Life at Eureka</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Connect With Us</h2>
+          <p>
+            Transforming students into disciplined learners through quality education and values.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+          </div>
+        </section>
+        <section>
+          <h2>Our Contacts & Location</h2>
+          <p>Dharan-1, Laxmi Sadak, Sunsari, Koshi Province, Nepal</p>
+          <p><a href="mailto:eurekadharan@gmail.com">eurekadharan@gmail.com</a></p>
+          <p><a href="tel:+97725535533">+977-25-535533</a> / <a href="tel:+97725578788">578788</a></p>
+        </section>
+      </div>
+      <div class="container footer-bottom">
+        <p>&copy; 2026 All Rights Reserved by Eureka Residential Secondary School</p>
+        <button class="scroll-top" type="button" aria-label="Scroll to top">
+          <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+        </button>
+      </div>
+    </footer>
+  </body>
+</html>
