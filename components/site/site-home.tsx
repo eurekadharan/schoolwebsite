@@ -163,7 +163,8 @@ const heroImages = [
 ];
 
 function AdmissionPopup() {
-  const [banner, setBanner] = useState<any | null>(null);
+  const [banners, setBanners] = useState<any[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -171,8 +172,13 @@ function AdmissionPopup() {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          setBanner(data[0]);
-          setOpen(true);
+          // Filter to active ones only, just in case
+          const activePopups = data.filter((b: any) => b.is_active !== false);
+          if (activePopups.length > 0) {
+            setBanners(activePopups);
+            setCurrentIndex(0);
+            setOpen(true);
+          }
         }
       })
       .catch((err) => console.error("Error fetching popup banner:", err));
@@ -183,16 +189,33 @@ function AdmissionPopup() {
     return () => document.body.classList.remove("overflow-hidden");
   }, [open]);
 
-  if (!open || !banner) return null;
+  if (!open || banners.length === 0 || currentIndex >= banners.length) return null;
+
+  const banner = banners[currentIndex];
+
+  const handleClose = () => {
+    if (currentIndex + 1 < banners.length) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setOpen(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[90] flex items-start justify-center bg-black/45 px-5 pt-24" role="dialog" aria-modal="true" aria-label={banner.title}>
       <div className="relative w-[min(430px,94vw)] overflow-hidden bg-white shadow-[0_30px_80px_rgba(43,46,61,.34)]">
-        <button className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-[#2b2e3d]/80 text-white" type="button" aria-label="Close notice" onClick={() => setOpen(false)}>
+        <button className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-[#2b2e3d]/80 text-white" type="button" aria-label="Close notice" onClick={handleClose}>
           <X size={18} />
         </button>
         <div className="relative h-[330px] max-sm:h-[250px]">
-          <Image src={banner.cover_image} alt={banner.title} fill sizes="430px" className="object-cover object-top" priority />
+          <img
+            src={banner.cover_image}
+            alt={banner.title}
+            className="object-cover object-top h-full w-full"
+            onError={(e) => {
+              e.currentTarget.src = "/images/school details.jpg";
+            }}
+          />
         </div>
         <div className="px-6 py-5 text-center">
           <span className="mb-4 inline-flex min-h-7 items-center rounded-full bg-[#d9fffc] px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]">Notice</span>
@@ -203,7 +226,11 @@ function AdmissionPopup() {
             </p>
           ) : null}
           {banner.cta_label && banner.cta_href ? (
-            <Link className="inline-flex min-h-[42px] items-center justify-center rounded-full bg-[#ff7b3b] px-6 py-3 text-xs font-bold uppercase text-white transition hover:-translate-y-0.5 hover:bg-[#3eaea6]" href={banner.cta_href} onClick={() => setOpen(false)}>
+            <Link
+              className="inline-flex min-h-[42px] items-center justify-center rounded-full bg-[#ff7b3b] px-6 py-3 text-xs font-bold uppercase text-white transition hover:-translate-y-0.5 hover:bg-[#3eaea6]"
+              href={banner.cta_href}
+              onClick={handleClose}
+            >
               {banner.cta_label}
             </Link>
           ) : null}
@@ -276,6 +303,8 @@ export function SiteHome() {
   const [heroIndex, setHeroIndex] = useState(0); // Starts with school building.jpg
   const [achievements, setAchievements] = useState<any[]>([]);
   const [banners, setBanners] = useState<any[]>([]);
+  const [notices, setNotices] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
 
   const currentGallery = galleryItems[galleryIndex % galleryItems.length];
 
@@ -331,10 +360,32 @@ export function SiteHome() {
       .catch((err) => console.error("Error loading achievements:", err));
   }, []);
 
+  useEffect(() => {
+    fetch("/api/posts?type=notice")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setNotices(data.slice(0, 3));
+        }
+      })
+      .catch((err) => console.error("Error loading notices previews:", err));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/posts?type=blog")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setBlogs(data.slice(0, 3));
+        }
+      })
+      .catch((err) => console.error("Error loading blogs previews:", err));
+  }, []);
+
   function handleSearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const query = String(new FormData(event.currentTarget).get("query") || "").trim();
-    if (query) window.location.href = `/news?q=${encodeURIComponent(query)}`;
+    if (query) window.location.href = `/blogs?q=${encodeURIComponent(query)}`;
   }
 
   // Segment programs for layout structure
@@ -787,72 +838,113 @@ export function SiteHome() {
         </div>
       </section>
 
-      {/* News & Notices Section */}
-      <section className={`bg-[#d9fffc] ${sectionPad}`} id="news-notices">
+      {/* Notices Section */}
+      <section className={`bg-[#d9fffc] ${sectionPad}`} id="notices">
         <div className={container}>
           <div className="mx-auto mb-11 max-w-[760px] text-center">
             <span className={eyebrow}>Bulletin Board</span>
-            <h2 className={title}>News & Notices</h2>
+            <h2 className={title}>Notice</h2>
             <p className="mt-4 text-[#4b4b4b]">
-              Stay informed with recent results, entrance exam dates, holidays, and school achievements.
+              Stay informed with recent results, entrance exam dates, holidays, and school announcements.
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
-            {newsNotices.map((post, i) => (
-              <article className="rounded-lg bg-white p-6 shadow-sm border border-slate-100 flex flex-col justify-between" key={i}>
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-bold text-slate-400">{post.date}</span>
-                    <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded ${
-                      post.type === "notice" ? "bg-[#ff7b3b]/10 text-[#ff7b3b]" : "bg-[#3eaea6]/10 text-[#3eaea6]"
-                    }`}>
-                      {post.type}
-                    </span>
-                  </div>
-                  <h4 className="font-bold text-[#2e2c2c] text-base leading-snug mb-3 hover:text-[#3eaea6] transition">
-                    <Link href="/news">{post.title}</Link>
-                  </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed mb-4">{post.excerpt}</p>
-                </div>
-                <Link href="/news" className="text-xs font-bold text-[#ff7b3b] hover:text-[#3eaea6] transition">
-                  Read Announcement &rarr;
-                </Link>
-              </article>
-            ))}
+          {notices.length === 0 ? (
+            <div className="text-center py-8 text-slate-500">
+              No recent notices posted.
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
+              {notices.map((post, i) => {
+                const dateStr = post.published_at
+                  ? new Date(post.published_at).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric"
+                    })
+                  : "Recent";
+
+                return (
+                  <article className="rounded-lg bg-white p-6 shadow-sm border border-slate-100 flex flex-col justify-between" key={post.id}>
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-bold text-slate-400">{dateStr}</span>
+                        <span className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-[#ff7b3b]/10 text-[#ff7b3b]">
+                          {post.type}
+                        </span>
+                      </div>
+                      <h4 className="font-bold text-[#2e2c2c] text-base leading-snug mb-3 hover:text-[#3eaea6] transition line-clamp-2">
+                        <Link href={`/notices/${post.slug}`}>{post.title}</Link>
+                      </h4>
+                      <p className="text-xs text-slate-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
+                    </div>
+                    <Link href={`/notices/${post.slug}`} className="text-xs font-bold text-[#ff7b3b] hover:text-[#3eaea6] transition">
+                      Read Notice &rarr;
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-8 text-center">
+            <Link className={btnPrimary} href="/notices">
+              View All Notices
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Latest Insights (Blogs) Section */}
+      {/* Latest Blogs Section */}
       <section className={sectionPad} id="blogs">
         <div className={container}>
           <div className="mx-auto mb-11 max-w-[760px] text-center">
             <span className={eyebrow}>From Our Educators</span>
-            <h2 className={title}>Latest Insights & Blogs</h2>
+            <h2 className={title}>Latest Blogs</h2>
             <p className="mt-4 text-[#4b4b4b]">
               Read columns from our coordinators and teaching staff on pedagogy, technology, and childhood development.
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
-            {insightsBlogs.map((blog, i) => (
-              <article className="rounded-lg bg-white p-6 shadow-sm border border-slate-100 flex flex-col justify-between" key={i}>
-                <div>
-                  <div className="flex items-center justify-between mb-3 text-[10px] font-semibold text-slate-400">
-                    <span>By {blog.author}</span>
-                    <span className="flex items-center gap-1"><ClockIcon /> {blog.readTime}</span>
-                  </div>
-                  <h4 className="font-bold text-[#2e2c2c] text-base leading-snug mb-3 hover:text-[#3eaea6] transition">
-                    <Link href="/news">{blog.title}</Link>
-                  </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed mb-4">{blog.excerpt}</p>
-                </div>
-                <Link href="/news" className="text-xs font-bold text-[#3eaea6] hover:text-[#ff7b3b] transition">
-                  Read Column &rarr;
-                </Link>
-              </article>
-            ))}
+          {blogs.length === 0 ? (
+            <div className="text-center py-8 text-slate-500">
+              No blogs published yet.
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1">
+              {blogs.map((blog, i) => {
+                const dateStr = blog.published_at
+                  ? new Date(blog.published_at).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric"
+                    })
+                  : "Recent";
+
+                return (
+                  <article className="rounded-lg bg-white p-6 shadow-sm border border-slate-100 flex flex-col justify-between" key={blog.id}>
+                    <div>
+                      <div className="flex items-center justify-between mb-3 text-[10px] font-semibold text-slate-400">
+                        <span>Published on {dateStr}</span>
+                      </div>
+                      <h4 className="font-bold text-[#2e2c2c] text-base leading-snug mb-3 hover:text-[#3eaea6] transition line-clamp-2">
+                        <Link href={`/blogs/${blog.slug}`}>{blog.title}</Link>
+                      </h4>
+                      <p className="text-xs text-slate-500 leading-relaxed mb-4 line-clamp-3">{blog.excerpt}</p>
+                    </div>
+                    <Link href={`/blogs/${blog.slug}`} className="text-xs font-bold text-[#3eaea6] hover:text-[#ff7b3b] transition">
+                      Read Column &rarr;
+                    </Link>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-8 text-center">
+            <Link className={btnPrimary} href="/blogs">
+              View All Blogs
+            </Link>
           </div>
         </div>
       </section>
@@ -1072,29 +1164,7 @@ export function SiteHome() {
         </div>
       </section>
 
-      {/* Downloads Section */}
-      <section className="bg-[#d9fffc] py-11" id="downloads">
-        <div className={`${container} grid grid-cols-[1.15fr_repeat(3,1fr)] items-center gap-6 max-lg:grid-cols-2 max-md:grid-cols-1`}>
-          <div>
-            <h2 className="mb-2 text-2xl font-bold text-[#2e2c2c]">Find Document</h2>
-            <p className="m-0 text-sm text-[#4b4b4b]">Discover essential documents for your academic journey at Eureka.</p>
-          </div>
-          {documents.map((document) => {
-            const Icon = documentIcons[document.icon as keyof typeof documentIcons];
-            return (
-              <Link className="flex items-start gap-4" href={document.href} key={document.title}>
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-[#ff7b3b]">
-                  <Icon size={18} />
-                </span>
-                <span>
-                  <h3 className="mb-1 text-base font-semibold text-[#2e2c2c]">{document.title}</h3>
-                  <p className="m-0 text-xs text-[#4b4b4b]">{document.description}</p>
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
+
 
       {/* FAQs Section */}
       <section className={sectionPad} id="faqs">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { adminCreateEvent } from "../actions";
+import { ImageUploader } from "@/components/admin/image-uploader";
 
 const ChevronLeftIcon = ({ size = 16 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -138,23 +139,12 @@ export default function AdminNewEventPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2 flex items-center gap-1.5">
-                <ImageIcon /> Cover Photo Path
-              </label>
-              <select
+              <ImageUploader
                 name="cover_image"
-                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
                 defaultValue="/images/christmas celebration.jpg"
-              >
-                <option value="/images/christmas celebration.jpg">Christmas Celebration</option>
-                <option value="/images/school building.jpg">School Campus</option>
-                <option value="/images/students demonstrating art.JPG">LitArt Fest Art Demonstration</option>
-                <option value="/images/students in temple.jpg">Winter Camp Temple Excursion</option>
-                <option value="/images/cultural programme.JPG">Cultural Programme Dance</option>
-                <option value="/images/eurekeans futsal.jpg">Futsal Ground Action</option>
-                <option value="/images/plantation programme.jpg">Plantation Campaign</option>
-                <option value="/images/see results 2082.jpg">SEE Results Celebration</option>
-              </select>
+                label="Cover Image"
+                required={true}
+              />
             </div>
           </div>
 

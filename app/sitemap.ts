@@ -12,13 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/programs/secondary-level",
     "/programs/grade-xi-xii",
     "/admission",
-    "/downloads",
     "/gallery",
     "/results",
     "/events",
     "/achievements",
     "/life-at-eureka",
-    "/news",
+    "/blogs",
     "/notices",
     "/contact"
   ];

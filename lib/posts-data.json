@@ -1,0 +1,80 @@
+[
+  {
+    "id": "post-1",
+    "type": "blog",
+    "slug": "transforming-classroom-theory-pbl",
+    "title": "Transforming Classroom Theory into Real-Life Competence with PBL",
+    "excerpt": "Project-Based Learning (PBL) forms the core of our educational module. Discover how students apply physics and science theories to hands-on solutions.",
+    "body": "Project-Based Learning (PBL) forms the core of our educational module. Discover how students apply physics and science theories to hands-on solutions. At Eureka, we believe that education is not just about memorizing text books; it is about applying theories to solve real-world problems. Through PBL, students in secondary levels build working models, conduct experiments, and present their findings to the school community. This methodology not only fosters deep conceptual clarity but also builds team work, critical thinking, and leadership.",
+    "cover_image": "images/students with smart board.jpg",
+    "homepage_order": 1,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-06-21T00:00:00.000Z"
+  },
+  {
+    "id": "post-2",
+    "type": "blog",
+    "slug": "eastern-cultural-values-digital-classrooms",
+    "title": "Eastern Cultural Values and Modern Digital Classrooms",
+    "excerpt": "Balancing smart boards and AI coding clubs with traditional eastern discipline and moral values prepares students to be responsible global citizens.",
+    "body": "Balancing smart boards and AI coding clubs with traditional eastern discipline and moral values prepares students to be responsible global citizens. The transition into digital learning spaces is crucial, but it should not come at the cost of character development. Eureka provides regular yoga sessions, assembly discipline, and values education alongside coding, digital libraries, and smart boards to create a holistic growth environment.",
+    "cover_image": "images/student in assembly.jpg",
+    "homepage_order": 2,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-06-20T00:00:00.000Z"
+  },
+  {
+    "id": "post-3",
+    "type": "blog",
+    "slug": "early-childhood-montessori-sensory-learning",
+    "title": "Early Childhood Development: The Power of Montessori sensory learning",
+    "excerpt": "Polite language, sensory exploration, and positive discipline. Explore how Eureka's Montessori wing shapes young minds during their most critical formative years.",
+    "body": "Polite language, sensory exploration, and positive discipline. Explore how Eureka's Montessori wing shapes young minds during their most critical formative years. In the Montessori Wing, early childhood learning is focused on polite communication, practical life skills, motor coordination, and sensory development. Using structured play materials, children explore shapes, colors, and numbers under positive discipline guidelines, ensuring a joyful foundation for their education.",
+    "cover_image": "images/montessori.jpg",
+    "homepage_order": 3,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-06-19T00:00:00.000Z"
+  },
+  {
+    "id": "post-4",
+    "type": "notice",
+    "slug": "100-pass-rate-see-board-results-2082",
+    "title": "100% Pass Rate in SEE Board Results 2082",
+    "excerpt": "We congratulate our 106 candidates who achieved a 100% pass rate in the SEE examination, featuring 3 students with a perfect GPA 4.0.",
+    "body": "We congratulate our 106 candidates who achieved a 100% pass rate in the SEE examination, featuring 3 students with a perfect GPA 4.0: Naman Gupta, Suyash Khatiwada, and Ishan Chhetri. The school administration and teachers congratulate all students for their consistent hard work and achievements.",
+    "cover_image": "images/see results 2082.jpg",
+    "homepage_order": null,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-06-12T00:00:00.000Z"
+  },
+  {
+    "id": "post-5",
+    "type": "notice",
+    "slug": "admission-open-grade-xi-xii",
+    "title": "Admission Open for Grade XI & XII (Science & Management)",
+    "excerpt": "Form distribution has commenced at Front Desk Block A. Entrance exams are scheduled for 25th and 26th Chaitra.",
+    "body": "Form distribution has commenced at Front Desk Block A. Entrance exams are scheduled for 25th and 26th Chaitra. Form submission guidelines, prospectus, and scholarships criteria can be obtained at the school front desk or via the online admissions inquiry portal. Admission is open for Science, Management, and Computer Science streams.",
+    "cover_image": "images/school details.jpg",
+    "homepage_order": null,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-06-15T00:00:00.000Z"
+  },
+  {
+    "id": "post-6",
+    "type": "notice",
+    "slug": "eureka-shines-hissan-sports-meet-2082",
+    "title": "Eureka Shines at the Hissan Sports Meet 2082",
+    "excerpt": "Eureka clinched the 1st Position in multiple events at the Koshi Province Hissan Sports meet, showing top sportsmanship.",
+    "body": "Eureka clinched the 1st Position in multiple events at the Koshi Province Hissan Sports meet, showing top sportsmanship. Our volleyball and table tennis teams achieved gold medals in provinces. The school management congratulates the students and coach team for their outstanding sports performance.",
+    "cover_image": "images/volleyball.jpg",
+    "homepage_order": null,
+    "status": "published",
+    "pinned": false,
+    "published_at": "2026-05-28T00:00:00.000Z"
+  }
+]

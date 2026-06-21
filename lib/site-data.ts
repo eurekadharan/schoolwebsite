@@ -9,7 +9,7 @@ export const school = {
   email: "eurekadharan@gmail.com",
   students: "1,600+",
   levels: "Montessori / Playgroup to Grade XII (+2)",
-  logo: "/images/eureka-logo.png",
+  logo: "/images/logo.png",
   heroImage: "/images/school building.jpg"
 };
 
@@ -35,9 +35,9 @@ export const navItems = [
   { label: "Life at Eureka", href: "/life-at-eureka" },
   { label: "Gallery", href: "/gallery" },
   { label: "Events", href: "/events" },
-  { label: "News & Notices", href: "/news" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "Notice", href: "/notices" },
   { label: "Hall of Fame", href: "/hall-of-fame" },
-  { label: "Downloads", href: "/downloads" },
   { label: "Contact", href: "/contact" }
 ];
 
@@ -284,12 +284,11 @@ export const faqs = [
 export const adminModules = [
   { label: "Banners", href: "/admin/banners", icon: "image", count: 4 },
   { label: "Pages", href: "/admin/pages", icon: "file", count: 12 },
-  { label: "Posts", href: "/admin/posts", icon: "newspaper", count: 18 },
+  { label: "Blogs", href: "/admin/blogs", icon: "newspaper", count: 18 },
   { label: "Notices", href: "/admin/notices", icon: "shield", count: 7 },
   { label: "Events", href: "/admin/events", icon: "calendar", count: 9 },
   { label: "Achievements", href: "/admin/achievements", icon: "trophy", count: 6 },
-  { label: "Media", href: "/admin/media", icon: "image", count: 33 },
-  { label: "Downloads", href: "/admin/downloads", icon: "book", count: 5 }
+  { label: "Media", href: "/admin/media", icon: "image", count: 33 }
 ];
 
 export const adminFormModules = [
@@ -340,13 +339,6 @@ export const pageSummaries = [
     eyebrow: "Academic Excellence",
     image: "/images/see results 2082.jpg",
     description: "Eureka celebrates a 100% SEE result for Batch 2082 and three GPA 4.0 achievers: Naman Gupta, Suyash Khatiwada, and Ishan Chhetri."
-  },
-  {
-    slug: "downloads",
-    title: "Downloads",
-    eyebrow: "Resources",
-    image: "/images/students in temple.jpg",
-    description: "Access school documents including the academic calendar, admission form, prospectus, notices, and policies."
   },
   {
     slug: "contact",

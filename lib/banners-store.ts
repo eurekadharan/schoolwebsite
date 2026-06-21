@@ -77,24 +77,34 @@ export async function getBanners(includeInactive = false): Promise<Banner[]> {
 
       if (data) {
         // Fetch all media assets to map image paths
-        const { data: mediaData } = await supabase.from("media_assets").select("id, path");
-        const mediaMap = new Map(mediaData?.map((m) => [m.id, m.path]) || []);
+        const { data: mediaData } = await supabase.from("media_assets").select("id, bucket, path");
+        const mediaMap = new Map<string, { bucket: string; path: string }>(
+          mediaData?.map((m) => [m.id, { bucket: m.bucket, path: m.path }]) || []
+        );
 
-        return data.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          subtitle: item.subtitle || "",
-          cta_label: item.cta_label || "",
-          cta_href: item.cta_href || "",
-          placement: item.placement,
-          sort_order: item.sort_order || 0,
-          is_active: item.is_active,
-          starts_at: item.starts_at,
-          ends_at: item.ends_at,
-          cover_image: item.image_id && mediaMap.has(item.image_id)
-            ? `/${mediaMap.get(item.image_id)}`
-            : "/images/school details.jpg"
-        }));
+        return data.map((item: any) => {
+          let cover_image = "/images/school details.jpg";
+          if (item.image_id && mediaMap.has(item.image_id)) {
+            const media = mediaMap.get(item.image_id)!;
+            cover_image = media.bucket === "external"
+              ? media.path
+              : (media.path.startsWith("/") ? media.path : `/${media.path}`);
+          }
+
+          return {
+            id: item.id,
+            title: item.title,
+            subtitle: item.subtitle || "",
+            cta_label: item.cta_label || "",
+            cta_href: item.cta_href || "",
+            placement: item.placement,
+            sort_order: item.sort_order || 0,
+            is_active: item.is_active,
+            starts_at: item.starts_at,
+            ends_at: item.ends_at,
+            cover_image,
+          };
+        });
       }
     } catch (err) {
       console.warn("Supabase banners query failed, falling back to local storage:", err);
@@ -115,13 +125,74 @@ export async function getBanners(includeInactive = false): Promise<Banner[]> {
   return localBanners.sort((a, b) => a.sort_order - b.sort_order);
 }
 
+export async function getBannerById(id: string): Promise<Banner | null> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createSupabaseServerClient();
+      const { data, error } = await supabase
+        .from("banners")
+        .select(`
+          id,
+          title,
+          subtitle,
+          cta_label,
+          cta_href,
+          placement,
+          sort_order,
+          is_active,
+          starts_at,
+          ends_at,
+          image_id
+        `)
+        .eq("id", id)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (data) {
+        let cover_image = "/images/school details.jpg";
+        if (data.image_id) {
+          const { data: media } = await supabase
+            .from("media_assets")
+            .select("bucket, path")
+            .eq("id", data.image_id)
+            .maybeSingle();
+          if (media) {
+            cover_image = media.bucket === "external"
+              ? media.path
+              : (media.path.startsWith("/") ? media.path : `/${media.path}`);
+          }
+        }
+
+        return {
+          id: data.id,
+          title: data.title,
+          subtitle: data.subtitle || "",
+          cta_label: data.cta_label || "",
+          cta_href: data.cta_href || "",
+          placement: data.placement,
+          sort_order: data.sort_order || 0,
+          is_active: data.is_active,
+          starts_at: data.starts_at,
+          ends_at: data.ends_at,
+          cover_image,
+        };
+      }
+    } catch (err) {
+      console.warn(`Supabase getBannerById for '${id}' failed:`, err);
+    }
+  }
+
+  const localBanners = readLocalBanners();
+  return localBanners.find((b) => b.id === id) || null;
+}
+
 export async function createBanner(bannerData: Omit<Banner, "id">): Promise<Banner> {
   const newId = crypto.randomUUID();
   const newBanner: Banner = {
     ...bannerData,
     id: newId,
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
   };
 
   if (isSupabaseConfigured()) {
@@ -130,11 +201,19 @@ export async function createBanner(bannerData: Omit<Banner, "id">): Promise<Bann
       
       let image_id: string | null = null;
       if (newBanner.cover_image) {
-        const assetPath = newBanner.cover_image.replace(/^\//, "");
+        let bucket = "public-media";
+        let pathStr = newBanner.cover_image;
+        if (pathStr.startsWith("http://") || pathStr.startsWith("https://")) {
+          bucket = "external";
+        } else {
+          pathStr = pathStr.replace(/^\//, "");
+        }
+
         const { data: media } = await supabase
           .from("media_assets")
           .select("id")
-          .eq("path", assetPath)
+          .eq("bucket", bucket)
+          .eq("path", pathStr)
           .maybeSingle();
 
         if (media) {
@@ -143,9 +222,9 @@ export async function createBanner(bannerData: Omit<Banner, "id">): Promise<Bann
           const { data: newMedia, error: mediaErr } = await supabase
             .from("media_assets")
             .insert({
-              bucket: "public-media",
-              path: assetPath,
-              alt_text: newBanner.title
+              bucket,
+              path: pathStr,
+              alt_text: newBanner.title,
             })
             .select("id")
             .single();
@@ -168,7 +247,7 @@ export async function createBanner(bannerData: Omit<Banner, "id">): Promise<Bann
           is_active: newBanner.is_active,
           starts_at: newBanner.starts_at || null,
           ends_at: newBanner.ends_at || null,
-          image_id
+          image_id,
         })
         .select()
         .single();
@@ -186,6 +265,99 @@ export async function createBanner(bannerData: Omit<Banner, "id">): Promise<Bann
   localBanners.push(newBanner);
   writeLocalBanners(localBanners);
   return newBanner;
+}
+
+export async function updateBanner(id: string, updatedFields: Partial<Banner>): Promise<Banner> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = await createSupabaseServerClient();
+
+      let image_id: string | undefined | null;
+      if (updatedFields.cover_image !== undefined) {
+        if (updatedFields.cover_image === "") {
+          image_id = null;
+        } else {
+          let bucket = "public-media";
+          let pathStr = updatedFields.cover_image;
+          if (pathStr.startsWith("http://") || pathStr.startsWith("https://")) {
+            bucket = "external";
+          } else {
+            pathStr = pathStr.replace(/^\//, "");
+          }
+
+          const { data: media } = await supabase
+            .from("media_assets")
+            .select("id")
+            .eq("bucket", bucket)
+            .eq("path", pathStr)
+            .maybeSingle();
+
+          if (media) {
+            image_id = media.id;
+          } else {
+            const { data: newMedia, error: mediaErr } = await supabase
+              .from("media_assets")
+              .insert({
+                bucket,
+                path: pathStr,
+                alt_text: updatedFields.title || "Banner Image",
+              })
+              .select("id")
+              .single();
+
+            if (!mediaErr && newMedia) {
+              image_id = newMedia.id;
+            }
+          }
+        }
+      }
+
+      const dbUpdate: any = {
+        updated_at: new Date().toISOString(),
+      };
+      if (updatedFields.title !== undefined) dbUpdate.title = updatedFields.title;
+      if (updatedFields.subtitle !== undefined) dbUpdate.subtitle = updatedFields.subtitle;
+      if (updatedFields.cta_label !== undefined) dbUpdate.cta_label = updatedFields.cta_label;
+      if (updatedFields.cta_href !== undefined) dbUpdate.cta_href = updatedFields.cta_href;
+      if (updatedFields.placement !== undefined) dbUpdate.placement = updatedFields.placement;
+      if (updatedFields.sort_order !== undefined) dbUpdate.sort_order = updatedFields.sort_order;
+      if (updatedFields.is_active !== undefined) dbUpdate.is_active = updatedFields.is_active;
+      if (updatedFields.starts_at !== undefined) dbUpdate.starts_at = updatedFields.starts_at || null;
+      if (updatedFields.ends_at !== undefined) dbUpdate.ends_at = updatedFields.ends_at || null;
+      if (image_id !== undefined) dbUpdate.image_id = image_id;
+
+      const { data, error } = await supabase
+        .from("banners")
+        .update(dbUpdate)
+        .eq("id", id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      if (data) {
+        const updated = await getBannerById(id);
+        if (updated) return updated;
+      }
+    } catch (err) {
+      console.warn("Supabase update banner failed, falling back to local file:", err);
+    }
+  }
+
+  const localBanners = readLocalBanners();
+  const index = localBanners.findIndex((b) => b.id === id);
+  if (index === -1) {
+    throw new Error(`Banner with ID ${id} not found.`);
+  }
+
+  const updatedBanner: Banner = {
+    ...localBanners[index],
+    ...updatedFields,
+    updated_at: new Date().toISOString(),
+  };
+
+  localBanners[index] = updatedBanner;
+  writeLocalBanners(localBanners);
+  return updatedBanner;
 }
 
 export async function deleteBanner(id: string): Promise<boolean> {

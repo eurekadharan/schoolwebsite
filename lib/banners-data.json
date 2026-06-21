@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": "banner-1",
+    "title": "Admission Open for Grade XI & XII (Science & Management)",
+    "subtitle": "Entrance exams scheduled for 25th and 26th Chaitra. Visit Block A front desk.",
+    "cover_image": "/images/school details.jpg",
+    "cta_label": "Apply Now",
+    "cta_href": "/admission",
+    "placement": "popup",
+    "sort_order": 1,
+    "is_active": true
+  },
+  {
+    "id": "banner-2",
+    "title": "Eureka SEE Results 2082: 100% Pass Rate",
+    "subtitle": "Congratulations to our toppers Naman, Suyash, and Ishan for achieving GPA 4.0!",
+    "cover_image": "/images/see results 2082.jpg",
+    "cta_label": "View Toppers",
+    "cta_href": "/hall-of-fame",
+    "placement": "popup",
+    "sort_order": 2,
+    "is_active": true
+  }
+]

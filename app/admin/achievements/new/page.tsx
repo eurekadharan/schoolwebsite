@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { adminCreateAchievement } from "../actions";
+import { ImageUploader } from "@/components/admin/image-uploader";
 
 const ChevronLeftIcon = ({ size = 16 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -134,23 +135,12 @@ export default function AdminNewAchievementPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2 flex items-center gap-1.5">
-                <ImageIcon /> Photo Path
-              </label>
-              <select
+              <ImageUploader
                 name="cover_image"
-                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
                 defaultValue="/images/staffs.jpg"
-              >
-                <option value="/images/staffs.jpg">Staff Team default</option>
-                <option value="/images/principal.jpg">Principal Mr. Chemjong</option>
-                <option value="/images/bhuwan sanjel.jpeg">Mr. Bhuwan Sanjel</option>
-                <option value="/images/bijay kumar shrestha.png">Mr. Bijay Shrestha</option>
-                <option value="/images/4 gpa.jpg">GPA 4.0 Achievers Photo</option>
-                <option value="/images/student in assembly.jpg">Student in Assembly</option>
-                <option value="/images/primary kids.jpg">Primary Kids</option>
-                <option value="/images/pre primary.jpg">Pre-Primary Kids</option>
-              </select>
+                label="Student Photo"
+                required={true}
+              />
             </div>
           </div>
 

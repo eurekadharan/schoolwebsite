@@ -257,17 +257,95 @@ ON CONFLICT (id) DO UPDATE SET
   sort_order = EXCLUDED.sort_order,
   is_featured = EXCLUDED.is_featured;
 
--- 12. Seed Posts (News, Notices, Blogs)
-INSERT INTO public.posts (slug, type, title, excerpt, status, pinned, published_at, created_by)
+-- 12. Seed Posts (Notices, Blogs)
+INSERT INTO public.posts (id, slug, type, title, excerpt, body, cover_image_id, status, pinned, published_at, homepage_order)
 VALUES
-  ('see-results-success-2082', 'news', '100% Pass Rate in SEE Board Results 2082', 'We congratulate our 106 candidates who achieved a 100% result, with Naman Gupta, Suyash Khatiwada, and Ishan Chhetri earning GPA 4.0.', 'published', true, now(), 'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8'),
-  ('admission-open-2083', 'notice', 'Admission Open for Grade XI & XII (Science & Management)', 'Form distribution has commenced at Front Desk Block A. Entrance exams are scheduled for 25th and 26th Chaitra.', 'published', false, now(), 'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8'),
-  ('hissan-meet-first', 'news', 'Eureka Shines at the Hissan Sports Meet 2082', 'Eureka clinched the 1st Position in multiple events at the Koshi Province Hissan Sports meet, showing top sportsmanship.', 'published', false, now(), 'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8'),
-  ('transforming-classroom-pbl', 'blog', 'Transforming Classroom Theory into Real-Life Competence with PBL', 'Project-Based Learning (PBL) forms the core of our educational module. Discover how students apply physics and science theories to hands-on solutions.', 'published', false, now(), 'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8')
-ON CONFLICT (slug) DO UPDATE SET
+  (
+    '20000000-0000-0000-0000-000000000001',
+    'transforming-classroom-theory-pbl',
+    'blog',
+    'Transforming Classroom Theory into Real-Life Competence with PBL',
+    'Project-Based Learning (PBL) forms the core of our educational module. Discover how students apply physics and science theories to hands-on solutions.',
+    '"Project-Based Learning (PBL) forms the core of our educational module. Discover how students apply physics and science theories to hands-on solutions. At Eureka, we believe that education is not just about memorizing text books; it is about applying theories to solve real-world problems. Through PBL, students in secondary levels build working models, conduct experiments, and present their findings to the school community. This methodology not only fosters deep conceptual clarity but also builds team work, critical thinking, and leadership."',
+    '10000000-0000-0000-0000-000000000021',
+    'published',
+    false,
+    now(),
+    1
+  ),
+  (
+    '20000000-0000-0000-0000-000000000002',
+    'eastern-cultural-values-digital-classrooms',
+    'blog',
+    'Eastern Cultural Values and Modern Digital Classrooms',
+    'Balancing smart boards and AI coding clubs with traditional eastern discipline and moral values prepares students to be responsible global citizens.',
+    '"Balancing smart boards and AI coding clubs with traditional eastern discipline and moral values prepares students to be responsible global citizens. The transition into digital learning spaces is crucial, but it should not come at the cost of character development. Eureka provides regular yoga sessions, assembly discipline, and values education alongside coding, digital libraries, and smart boards to create a holistic growth environment."',
+    '10000000-0000-0000-0000-000000000020',
+    'published',
+    false,
+    now(),
+    2
+  ),
+  (
+    '20000000-0000-0000-0000-000000000003',
+    'early-childhood-montessori-sensory-learning',
+    'blog',
+    'Early Childhood Development: The Power of Montessori sensory learning',
+    'Polite language, sensory exploration, and positive discipline. Explore how Eureka\'s Montessori wing shapes young minds during their most critical formative years.',
+    '"Polite language, sensory exploration, and positive discipline. Explore how Eureka\'s Montessori wing shapes young minds during their most critical formative years. In the Montessori Wing, early childhood learning is focused on polite communication, practical life skills, motor coordination, and sensory development. Using structured play materials, children explore shapes, colors, and numbers under positive discipline guidelines, ensuring a joyful foundation for their education."',
+    '10000000-0000-0000-0000-000000000008',
+    'published',
+    false,
+    now(),
+    3
+  ),
+  (
+    '20000000-0000-0000-0000-000000000004',
+    '100-pass-rate-see-board-results-2082',
+    'notice',
+    '100% Pass Rate in SEE Board Results 2082',
+    'We congratulate our 106 candidates who achieved a 100% pass rate in the SEE examination, featuring 3 students with a perfect GPA 4.0.',
+    '"We congratulate our 106 candidates who achieved a 100% pass rate in the SEE examination, featuring 3 students with a perfect GPA 4.0: Naman Gupta, Suyash Khatiwada, and Ishan Chhetri. The school administration and teachers congratulate all students for their consistent hard work and achievements."',
+    '10000000-0000-0000-0000-000000000016',
+    'published',
+    false,
+    now(),
+    NULL
+  ),
+  (
+    '20000000-0000-0000-0000-000000000005',
+    'admission-open-grade-xi-xii',
+    'notice',
+    'Admission Open for Grade XI & XII (Science & Management)',
+    'Form distribution has commenced at Front Desk Block A. Entrance exams are scheduled for 25th and 26th Chaitra.',
+    '"Form distribution has commenced at Front Desk Block A. Entrance exams are scheduled for 25th and 26th Chaitra. Form submission guidelines, prospectus, and scholarships criteria can be obtained at the school front desk or via the online admissions inquiry portal. Admission is open for Science, Management, and Computer Science streams."',
+    '10000000-0000-0000-0000-000000000023',
+    'published',
+    false,
+    now(),
+    NULL
+  ),
+  (
+    '20000000-0000-0000-0000-000000000006',
+    'eureka-shines-hissan-sports-meet-2082',
+    'notice',
+    'Eureka Shines at the Hissan Sports Meet 2082',
+    'Eureka clinched the 1st Position in multiple events at the Koshi Province Hissan Sports meet, showing top sportsmanship.',
+    '"Eureka clinched the 1st Position in multiple events at the Koshi Province Hissan Sports meet, showing top sportsmanship. Our volleyball and table tennis teams achieved gold medals in provinces. The school management congratulates the students and coach team for their outstanding sports performance."',
+    '10000000-0000-0000-0000-000000000018',
+    'published',
+    false,
+    now(),
+    NULL
+  )
+ON CONFLICT (id) DO UPDATE SET
+  slug = EXCLUDED.slug,
   type = EXCLUDED.type,
   title = EXCLUDED.title,
   excerpt = EXCLUDED.excerpt,
+  body = EXCLUDED.body,
+  cover_image_id = EXCLUDED.cover_image_id,
   status = EXCLUDED.status,
   pinned = EXCLUDED.pinned,
-  published_at = EXCLUDED.published_at;
+  published_at = EXCLUDED.published_at,
+  homepage_order = EXCLUDED.homepage_order;

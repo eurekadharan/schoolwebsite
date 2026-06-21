@@ -1,0 +1,55 @@
+[
+  {
+    "id": "da000000-0000-0000-0000-000000000001",
+    "slug": "about",
+    "title": "About Us",
+    "excerpt": "Established in 2050 B.S. / 1994 A.D., Eureka has spent over three decades establishing a celebrated history of academic excellence and disciplined campus culture.",
+    "body": {
+      "vision": "To be the leading educational institution in Eastern Nepal, nurturing confident, creative, and compassionate global citizens.",
+      "mission": "To provide quality education through a disciplined environment, innovative pedagogy, and holistic development programs that prepare students for life.",
+      "motto": "In Pursuit of Excellence",
+      "history_paragraphs": [
+        "Eureka Residential Secondary School was established in 2050 B.S. (1994 A.D.) in Dharan-1, Laxmi Sadak, Sunsari. Founded with a vision to deliver premium educational opportunities in Eastern Nepal, we have spent over 30 years cultivating an environment where academic rigor blends with strict positive discipline.",
+        "What began as a localized primary school has expanded into one of the top 10 schools in the Purbanchal region and is widely recognized as one of the leading educational centers in Dharan. Our curriculum has evolved from traditional rote formats to a comprehensive Project-Based Learning (PBL) methodology, helping students learn via inquiry, design, and practical execution.",
+        "Today, Eureka currently educates over 1,600 students from Montessori / Pre-KG through Grade XII (+2), including specialized streams in Science, Management, and Computer Science. We remain dedicated to nurturing responsible, creative, and confident citizens prepared to face global challenges."
+      ],
+      "principal": {
+        "name": "Mr. Kuran Chemjong",
+        "qualification": "Principal, B.Sc. (Physics, TU) | M.Ed. (ELT, KU)",
+        "image_url": "/images/principal.jpg",
+        "message_paragraphs": [
+          "Education at Eureka is viewed as a journey of growth, creativity, and personal construction, grounded in strong academic foundations and supported by confidence, discipline, and moral values.",
+          "Our school’s signature Project-Based Learning (PBL) methodology emphasizes activity-based learning, critical thinking, and real-life application. We want to ensure that education remains meaningful and engaging for every child, rather than being confined to textbook memorization. A disciplined environment, guided by clearly defined rules and conduct, creates a campus that is safe, secure, friendly, respectful, and highly enjoyable.",
+          "To support this mission, our recent infrastructure enhancements include two modern computer labs, high-quality physics, chemistry, and biology laboratories, a dedicated ICT smart hall, and two spacious seminar halls. Combined with transport fleets, hygiene canteen facilities, and boarding hostels, we provide a complete ecosystem for student success.",
+          "We are extremely proud of our dedicated teaching team and appreciate the vital support of parents in building a strong foundation for each student's success."
+        ]
+      },
+      "coordinators": [
+        {
+          "name": "Mr. Bijay Kumar Shrestha",
+          "role": "Secondary Level Coordinator",
+          "qualification": "Secondary Coordinator | M.Sc. (Biology)",
+          "image_url": "/images/bijay kumar shrestha.png",
+          "level_label": "Secondary Level (Grade 9 - 12)",
+          "message_paragraphs": [
+            "Secondary level study at Eureka serves as the critical bridge for students transitioning into higher education and technical board exams. We actively update our curriculum to match modern standards, introducing coding and advanced computing modules for secondary students. Our students enjoy extensive practical periods inside our chemistry, biology, and physics laboratories to ground theoretical concepts in empirical observation.",
+            "Through our continuous weekly test assessments, mock board evaluations, and focused counseling sessions, we guide secondary performers to achieve their maximum potential. We cooperate closely with educators to implement interactive seminars, project assignments, and co-curricular programs that mold students into competent academic aspirants."
+          ]
+        },
+        {
+          "name": "Mr. Bhuwan Sanjel",
+          "role": "Basic Level Coordinator",
+          "qualification": "Basic Level Coordinator | BA Sociology / MA English",
+          "image_url": "/images/bhuwan sanjel.jpeg",
+          "level_label": "Basic Level (Montessori - Grade 8)",
+          "message_paragraphs": [
+            "The basic level sets the bedrock of academic confidence, moral values, and socialization habits. At Eureka, we utilize a child-centric Montessori methodology in our pre-school wings to emphasize positive discipline and motor coordination. As students progress into basic levels, we introduce digital classrooms, interactive smart board halls, and logic puzzles inside our math laboratory to build conceptual clarity.",
+            "We coordinate character development workshops, public speaking contests, and sports activities alongside co-curricular programs to support a well-rounded learning graph. We prioritize regular teacher training and parental interaction, creating a collaborative circle that guides every basic level child to grow in a safe, respect-driven environment."
+          ]
+        }
+      ]
+    },
+    "status": "published",
+    "published_at": "2026-06-21T00:00:00.000Z"
+  }
+]
