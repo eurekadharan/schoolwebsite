@@ -7,22 +7,20 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const customSections = ["events", "hall-of-fame", "banners", "blogs", "notices", "pages", "media", "gallery"];
+  const customSections = ["events", "hall-of-fame", "banners", "blogs", "notices", "pages", "media", "gallery", "settings"];
   return [
     ...adminModules
       .map((module) => module.href.split("/").pop()!)
       .filter((sect) => !customSections.includes(sect))
-      .map((section) => ({ section })),
-    { section: "settings" }
+      .map((section) => ({ section }))
   ];
 }
 
 export default async function AdminSectionPage({ params }: Props) {
   const { section } = await params;
-  const moduleConfig = adminModules.find((item) => item.href.endsWith(`/${section}`)) || (section === "settings" ? {
-    label: "Settings",
-    count: 1
-  } : null);
+  if (section === "settings") notFound();
+
+  const moduleConfig = adminModules.find((item) => item.href.endsWith(`/${section}`));
 
   if (!moduleConfig) notFound();
 

@@ -2,12 +2,25 @@ insert into public.site_settings (key, value)
 values
   ('school_identity', '{
     "name": "Eureka Residential Secondary School",
+    "shortName": "Eureka",
     "motto": "In Pursuit of Excellence",
     "address": "Dharan-1, Laxmi Sadak, Sunsari",
+    "province": "Koshi Province, Nepal",
     "phone": "+977-25-535533 / 578788",
     "email": "eurekadharan@gmail.com",
     "established": "2050 B.S. / 1994 A.D.",
-    "students": "1600+"
+    "students": "1,600+",
+    "levels": "Montessori / Playgroup to Grade XII (+2)",
+    "logo": "/images/logo.png",
+    "heroImage": "/images/school building.jpg",
+    "facebook_school": "https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr",
+    "facebook_montessori": "https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr",
+    "facebook_plus_two": "https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr",
+    "whatsapp": "https://wa.me/97725535533",
+    "hero_prefix": "Eureka Residential Secondary School • Dharan-1",
+    "hero_title": "Helping students pursue excellence with discipline and confidence",
+    "hero_subtitle": "From Montessori to Grade XII, Eureka blends strong academics, Project-Based Learning, technology, culture, and character formation.",
+    "office_hours": "Sunday - Friday: 9:00 AM - 4:00 PM"
   }'::jsonb),
   ('admission_strip', '{
     "label": "New Admission 2083 (2026/27)",

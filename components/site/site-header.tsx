@@ -6,13 +6,27 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { navItems, school } from "@/lib/site-data";
+import type { SchoolIdentity, AdmissionStrip } from "@/lib/settings-store";
 
-export function SiteHeader() {
+interface SiteHeaderProps {
+  settings?: SchoolIdentity;
+  admissionStrip?: AdmissionStrip;
+}
+
+export function SiteHeader({ settings, admissionStrip }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const schoolData = settings ? { ...school, ...settings } : school;
 
   return (
     <header className="sticky top-0 z-50 w-full shadow-[0_8px_22px_rgba(0,0,0,.05)]">
+      {admissionStrip && (
+        <div className="admission-strip">
+          <Link href={admissionStrip.href} onClick={() => setOpen(false)}>
+            {admissionStrip.label}
+          </Link>
+        </div>
+      )}
       <a
         className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[80] focus:bg-[#2e2c2c] focus:px-4 focus:py-2 focus:text-white"
         href="#content"
@@ -27,7 +41,7 @@ export function SiteHeader() {
           <Link href="/" className="flex items-center gap-3" aria-label="Eureka home">
             <div className="relative h-14 w-14 flex-shrink-0 overflow-hidden rounded-full border-2 border-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] bg-white flex items-center justify-center">
               <Image
-                src={school.logo}
+                src={schoolData.logo}
                 alt="Eureka logo"
                 fill
                 sizes="56px"
@@ -37,13 +51,13 @@ export function SiteHeader() {
             </div>
             <div className="grid leading-none">
               <strong className="text-xl font-black uppercase text-[#083f73] tracking-tight sm:text-2xl">
-                {school.shortName}
+                {schoolData.shortName}
               </strong>
               <span className="text-[10px] font-extrabold uppercase tracking-wide text-gray-600 sm:text-xs">
                 Residential Secondary School
               </span>
               <span className="mt-0.5 text-[9px] font-bold text-[#ff7b3b] uppercase tracking-wider">
-                {school.motto}
+                {schoolData.motto}
               </span>
             </div>
           </Link>
@@ -70,7 +84,7 @@ export function SiteHeader() {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400 leading-none">
                   Call Us
                 </span>
-                <span className="text-xs font-bold leading-tight mt-0.5">{school.phone.split(" / ")[0]}</span>
+                <span className="text-xs font-bold leading-tight mt-0.5">{schoolData.phone.split(" / ")[0]}</span>
               </div>
             </div>
 
@@ -94,7 +108,7 @@ export function SiteHeader() {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400 leading-none">
                   Email Us
                 </span>
-                <span className="text-xs font-bold leading-tight mt-0.5">{school.email}</span>
+                <span className="text-xs font-bold leading-tight mt-0.5">{schoolData.email}</span>
               </div>
             </div>
 
@@ -242,8 +256,8 @@ export function SiteHeader() {
             Enquire Now
           </Link>
           <div className="flex flex-col gap-1 text-center text-[10px] text-white/60 mt-4 border-t border-white/10 pt-4">
-            <span>{school.phone}</span>
-            <span>{school.email}</span>
+            <span>{schoolData.phone}</span>
+            <span>{schoolData.email}</span>
           </div>
         </div>
       </div>

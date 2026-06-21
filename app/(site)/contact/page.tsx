@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getPageSummary, school } from "@/lib/site-data";
 import { ContactForm } from "@/components/forms/contact-form";
+import { getSettings, type SchoolIdentity } from "@/lib/settings-store";
 
 export const metadata: Metadata = {
   title: "Contact Us | Eureka Residential Secondary School",
@@ -12,8 +13,13 @@ const container = "mx-auto max-w-[1140px] px-4";
 const eyebrow = "mb-4 inline-flex min-h-7 items-center rounded-full bg-[#d9fffc] px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]";
 const title = "text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-[#2e2c2c]";
 
-export default function ContactPage() {
+export default async function ContactPage() {
   const page = getPageSummary("contact")!;
+  const settings = await getSettings();
+  const schoolData = (settings ? { ...school, ...settings.school_identity } : school) as SchoolIdentity;
+  const schoolFacebook = schoolData.facebook_school || "https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr";
+  const montessoriFacebook = schoolData.facebook_montessori || "https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr";
+  const plusTwoFacebook = schoolData.facebook_plus_two || "https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr";
 
   return (
     <>
@@ -45,22 +51,46 @@ export default function ContactPage() {
                 <div className="space-y-4 border-t border-slate-100 pt-6">
                   <div>
                     <h4 className="text-xs font-black uppercase text-[#ff7b3b]">School Location</h4>
-                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{school.address}, {school.province}</p>
+                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{schoolData.address}, {schoolData.province || "Koshi Province, Nepal"}</p>
                   </div>
 
                   <div>
                     <h4 className="text-xs font-black uppercase text-[#ff7b3b]">Phone Numbers</h4>
-                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{school.phone}</p>
+                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{schoolData.phone}</p>
                   </div>
 
                   <div>
                     <h4 className="text-xs font-black uppercase text-[#ff7b3b]">Email Address</h4>
-                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{school.email}</p>
+                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{schoolData.email}</p>
                   </div>
 
                   <div>
                     <h4 className="text-xs font-black uppercase text-[#ff7b3b]">Office Hours</h4>
-                    <p className="text-sm text-[#10233f] font-bold mt-0.5">Sunday - Friday: 9:00 AM - 4:00 PM</p>
+                    <p className="text-sm text-[#10233f] font-bold mt-0.5">{schoolData.office_hours || "Sunday - Friday: 9:00 AM - 4:00 PM"}</p>
+                  </div>
+
+                  <div className="border-t border-slate-100 pt-4">
+                    <h4 className="text-xs font-black uppercase text-[#ff7b3b] mb-2">Social Channels</h4>
+                    <ul className="space-y-2">
+                      <li className="flex items-center gap-2">
+                        <svg className="h-4 w-4 text-[#3eaea6] shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a className="text-sm text-[#10233f] font-bold hover:text-[#ff7b3b] transition" href={schoolFacebook} target="_blank" rel="noopener noreferrer">School Official</a>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <svg className="h-4 w-4 text-[#3eaea6] shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a className="text-sm text-[#10233f] font-bold hover:text-[#ff7b3b] transition" href={montessoriFacebook} target="_blank" rel="noopener noreferrer">Montessori Wing</a>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <svg className="h-4 w-4 text-[#3eaea6] shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                        <a className="text-sm text-[#10233f] font-bold hover:text-[#ff7b3b] transition" href={plusTwoFacebook} target="_blank" rel="noopener noreferrer">+2 Wing</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>

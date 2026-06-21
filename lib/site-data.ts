@@ -288,8 +288,7 @@ export const adminModules = [
   { label: "Notices", href: "/admin/notices", icon: "shield", count: 7 },
   { label: "Events", href: "/admin/events", icon: "calendar", count: 9 },
   { label: "Hall of Fame", href: "/admin/hall-of-fame", icon: "trophy", count: 6 },
-  { label: "Gallery", href: "/admin/gallery", icon: "image", count: 6 },
-  { label: "Media", href: "/admin/media", icon: "image", count: 33 }
+  { label: "Gallery", href: "/admin/gallery", icon: "image", count: 6 }
 ];
 
 export const adminFormModules = [

@@ -297,7 +297,14 @@ function ContactForm() {
   );
 }
 
-export function SiteHome() {
+import type { SchoolIdentity } from "@/lib/settings-store";
+
+interface SiteHomeProps {
+  settings?: SchoolIdentity;
+}
+
+export function SiteHome({ settings }: SiteHomeProps) {
+  const schoolData = (settings ? { ...school, ...settings } : school) as SchoolIdentity;
   const [activeFeature, setActiveFeature] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [events, setEvents] = useState<SchoolEvent[]>([]);
@@ -443,14 +450,13 @@ export function SiteHome() {
         <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 xl:px-32">
           <div className="max-w-[690px] py-[75px] max-md:py-14">
             <p className="mb-5 border-l-[3px] border-[#ff7b3b] pl-3 text-xl font-semibold leading-tight text-[#2e2c2c] max-md:text-base">
-              Eureka Residential Secondary School • Dharan-1
+              {schoolData.hero_prefix || "Eureka Residential Secondary School • Dharan-1"}
             </p>
             <h1 id="hero-title" className="mb-5 max-w-[720px] text-balance text-[clamp(34px,5vw,60px)] font-bold leading-[1.05] text-[#2e2c2c]">
-              Helping students pursue excellence with discipline and confidence
+              {schoolData.hero_title || "Helping students pursue excellence with discipline and confidence"}
             </h1>
             <p className="mb-6 max-w-[560px] text-[15px] leading-7 text-[#4b4b4b]">
-              From Montessori to Grade XII, Eureka blends strong academics, Project-Based Learning,
-              technology, culture, and character formation.
+              {schoolData.hero_subtitle || "From Montessori to Grade XII, Eureka blends strong academics, Project-Based Learning, technology, culture, and character formation."}
             </p>
             <form className="mb-5 flex min-h-11 w-[min(100%,520px)] rounded bg-[#d9fffc]" onSubmit={handleSearch} role="search">
               <label className="sr-only" htmlFor="site-search">Search Eureka</label>
@@ -493,7 +499,7 @@ export function SiteHome() {
             <span className={eyebrow}>About Eureka</span>
             <h2 className={title}>Pave your path forward with Eureka Residential Secondary School</h2>
             <p className="mt-5 text-[#4b4b4b]">
-              Founded in 1994, Eureka is one of Dharan&apos;s leading schools, educating {school.students}
+              Founded in 1994, Eureka is one of Dharan&apos;s leading schools, educating {schoolData.students}
               students in a disciplined, safe, and student-centered environment.
             </p>
             <Link className={`${btnPrimary} mt-4`} href="/about">Learn More</Link>

@@ -5,6 +5,11 @@ import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { Camera, MessageCircle, Newspaper, Users, MapPin, Phone } from "lucide-react";
 import { navItems, school } from "@/lib/site-data";
+import type { SchoolIdentity } from "@/lib/settings-store";
+
+interface SiteFooterProps {
+  settings?: SchoolIdentity;
+}
 
 const MailIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg
@@ -79,7 +84,13 @@ export function NewsletterStrip() {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ settings }: SiteFooterProps) {
+  const schoolData = (settings ? { ...school, ...settings } : school) as SchoolIdentity;
+  const schoolFacebook = schoolData.facebook_school || "https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr";
+  const montessoriFacebook = schoolData.facebook_montessori || "https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr";
+  const plusTwoFacebook = schoolData.facebook_plus_two || "https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr";
+  const whatsappLink = schoolData.whatsapp || "https://wa.me/97725535533";
+
   return (
     <footer className="bg-[#2b2e3d] text-white">
       <div className="mx-auto grid max-w-[1140px] grid-cols-[1.25fr_.85fr_1fr] gap-9 px-4 py-10 max-md:grid-cols-1">
@@ -111,15 +122,15 @@ export function SiteFooter() {
           <ul className="grid gap-2 text-sm text-white/75 mb-4" aria-label="Contact info">
             <li className="flex items-start gap-2">
               <MapPin size={16} className="text-[#3eaea6] mt-0.5 shrink-0" />
-              <span>{school.address}</span>
+              <span>{schoolData.address}</span>
             </li>
             <li className="flex items-center gap-2">
               <Phone size={16} className="text-[#3eaea6] shrink-0" />
-              <a className="hover:text-[#ff7b3b]" href="tel:+97725535533">{school.phone}</a>
+              <a className="hover:text-[#ff7b3b]" href={`tel:${schoolData.phone.split(" / ")[0].replace(/[^0-9+]/g, "")}`}>{schoolData.phone}</a>
             </li>
             <li className="flex items-center gap-2">
               <MailIcon size={16} className="text-[#3eaea6] shrink-0" />
-              <a className="hover:text-[#ff7b3b]" href={`mailto:${school.email}`}>{school.email}</a>
+              <a className="hover:text-[#ff7b3b]" href={`mailto:${schoolData.email}`}>{schoolData.email}</a>
             </li>
           </ul>
 
@@ -128,15 +139,15 @@ export function SiteFooter() {
             <ul className="grid gap-2 text-sm text-white/75">
               <li className="flex items-center gap-2">
                 <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
-                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">School Official</a>
+                <a className="hover:text-[#ff7b3b]" href={schoolFacebook} target="_blank" rel="noopener noreferrer">School Official</a>
               </li>
               <li className="flex items-center gap-2">
                 <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
-                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Montessori Wing</a>
+                <a className="hover:text-[#ff7b3b]" href={montessoriFacebook} target="_blank" rel="noopener noreferrer">Montessori Wing</a>
               </li>
               <li className="flex items-center gap-2">
                 <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
-                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">+2 Wing</a>
+                <a className="hover:text-[#ff7b3b]" href={plusTwoFacebook} target="_blank" rel="noopener noreferrer">+2 Wing</a>
               </li>
             </ul>
           </div>
@@ -146,7 +157,7 @@ export function SiteFooter() {
               { icon: Users, href: "/", label: "Community" },
               { icon: Newspaper, href: "/news", label: "News" },
               { icon: Camera, href: "/gallery", label: "Gallery" },
-              { icon: MessageCircle, href: "https://wa.me/97725535533", label: "WhatsApp" }
+              { icon: MessageCircle, href: whatsappLink, label: "WhatsApp" }
             ].map((item) => {
               const Icon = item.icon;
               return (
@@ -159,7 +170,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="mx-auto max-w-[1140px] border-t border-white/15 px-4 py-4 text-xs text-white/70">
-        © 2026 All Rights Reserved by {school.shortName}
+        © 2026 All Rights Reserved by {schoolData.shortName}
       </div>
     </footer>
   );
