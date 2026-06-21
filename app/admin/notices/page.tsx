@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getPosts } from "@/lib/posts-store";
 import { adminDeleteNotice } from "./actions";
+import SafeImage from "@/components/safe-image";
+import ConfirmDeleteForm from "@/components/admin/confirm-delete-form";
 
 const ShieldIcon = ({ size = 16, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -90,13 +92,10 @@ export default async function AdminNoticesPage() {
                       <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-3">
                         {notice.cover_image ? (
                           <div className="h-10 w-10 bg-slate-50 border rounded overflow-hidden flex items-center justify-center shrink-0">
-                            <img
+                            <SafeImage
                               src={notice.cover_image}
                               alt="preview"
                               className="object-cover max-h-full max-w-full"
-                              onError={(e) => {
-                                e.currentTarget.src = "data:image/svg+xml;charset=utf-8,%3Csvg xmlns%3D'http%3D%2F%2Fwww.w3.org%2F2000%2Fsvg' width%3D'24' height%3D'24' fill%3D'none' stroke%3D'%23cbd5e0' stroke-width%3D'2'%3E%3Crect width%3D'18' height%3D'18' x%3D'3' y%3D'3' rx%3D'2'%2F%3E%3Ccircle cx%3D'8.5' cy%3D'8.5' r%3D'1.5'%2F%3E%3Cpath d%3D'm21 15-5-5L5 21'%2F%3E%3C%2Fsvg%3E";
-                              }}
                             />
                           </div>
                         ) : (
@@ -134,25 +133,21 @@ export default async function AdminNoticesPage() {
                           >
                             <EditIcon />
                           </Link>
-                          <form
+                          <ConfirmDeleteForm
                             action={async () => {
                               "use server";
                               await adminDeleteNotice(notice.id);
                             }}
+                            confirmMessage="Are you sure you want to delete this notice?"
                           >
                             <button
                               type="submit"
                               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-[#b42318] hover:bg-[#b42318] hover:text-white hover:border-transparent transition"
                               title="Delete Notice"
-                              onClick={(e) => {
-                                if (!confirm("Are you sure you want to delete this notice?")) {
-                                  e.preventDefault();
-                                }
-                              }}
                             >
                               <TrashIcon />
                             </button>
-                          </form>
+                          </ConfirmDeleteForm>
                         </div>
                       </td>
                     </tr>

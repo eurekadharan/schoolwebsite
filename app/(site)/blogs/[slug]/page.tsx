@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getPosts } from "@/lib/posts-store";
+import SafeImage from "@/components/safe-image";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -95,13 +96,10 @@ export default async function BlogDetailPage({ params }: Props) {
       {/* Blog Header Banner */}
       <section className="relative isolate flex min-h-[300px] items-center overflow-hidden text-white">
         <div className="absolute inset-0 -z-20">
-          <img
-            src={post.cover_image || "/images/students with smart board.jpg"}
+          <SafeImage
+            src={post.cover_image}
             alt={post.title}
             className="h-full w-full object-cover object-center"
-            onError={(e) => {
-              e.currentTarget.src = "/images/students with smart board.jpg";
-            }}
           />
         </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#10233f]/95 via-[#10233f]/75 to-[#10233f]/40" />

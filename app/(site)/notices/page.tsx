@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts } from "@/lib/posts-store";
+import SafeImage from "@/components/safe-image";
 
 export const metadata: Metadata = {
   title: "School Notices & Circulars | Eureka"
@@ -87,13 +88,10 @@ export default async function NoticesListPage({ searchParams }: PageProps) {
                     >
                       {notice.cover_image && (
                         <div className="relative h-[120px] w-[180px] rounded overflow-hidden shrink-0 max-sm:w-full max-sm:h-[150px]">
-                          <img
+                          <SafeImage
                             src={notice.cover_image}
                             alt={notice.title}
                             className="h-full w-full object-cover"
-                            onError={(e) => {
-                              e.currentTarget.style.display = "none";
-                            }}
                           />
                         </div>
                       )}

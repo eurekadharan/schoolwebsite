@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getPosts } from "@/lib/posts-store";
+import SafeImage from "@/components/safe-image";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -123,13 +124,10 @@ export default async function NoticeDetailPage({ params }: Props) {
               <article className="rounded-lg bg-white p-8 shadow-sm border border-slate-100">
                 {post.cover_image && post.cover_image !== "/images/school details.jpg" && (
                   <div className="mb-6 rounded overflow-hidden max-h-[400px] flex items-center justify-center bg-slate-50 border border-slate-100">
-                    <img
+                    <SafeImage
                       src={post.cover_image}
                       alt={post.title}
                       className="object-contain max-h-[400px] w-auto"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
                     />
                   </div>
                 )}

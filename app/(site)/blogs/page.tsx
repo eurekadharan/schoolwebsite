@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts } from "@/lib/posts-store";
+import SafeImage from "@/components/safe-image";
 
 export const metadata: Metadata = {
   title: "School Blogs & Insights | Eureka"
@@ -93,14 +94,10 @@ export default async function BlogsListPage({ searchParams }: PageProps) {
                       className="group flex flex-col bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 transition hover:shadow-md"
                     >
                       <div className="relative h-[220px] w-full shrink-0">
-                        {/* Safe rendering using raw img to support Drive link paste */}
-                        <img
-                          src={blog.cover_image || "/images/students with smart board.jpg"}
+                        <SafeImage
+                          src={blog.cover_image}
                           alt={blog.title}
                           className="h-full w-full object-cover transition group-hover:scale-105 duration-500"
-                          onError={(e) => {
-                            e.currentTarget.src = "/images/students with smart board.jpg";
-                          }}
                         />
                       </div>
                       <div className="p-6 flex-1 flex flex-col justify-between">
