@@ -43,7 +43,7 @@ export default async function HallOfFamePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-4 gap-6 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {achievements.map((item) => (
               <article
                 className="overflow-hidden rounded-xl bg-white shadow-[0_4px_20px_rgba(43,46,61,0.05)] border border-slate-100 p-6 flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgba(43,46,61,0.08)] transition duration-300"
