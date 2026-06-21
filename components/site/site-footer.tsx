@@ -3,8 +3,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
-import { Camera, MessageCircle, Newspaper, Users } from "lucide-react";
+import { Camera, MessageCircle, Newspaper, Users, MapPin, Phone } from "lucide-react";
 import { navItems, school } from "@/lib/site-data";
+
+const MailIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <rect width="20" height="16" x="2" y="4" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
+);
 
 export function NewsletterStrip() {
   const [status, setStatus] = useState("");
@@ -74,7 +92,23 @@ export function SiteFooter() {
 
         <div>
           <h3 className="mb-3 text-lg font-bold">Connect With Us</h3>
-          <p className="text-sm text-white/75">Feel free to contact us for admissions, programs, hostel, transport, and school information.</p>
+          <p className="text-sm text-white/75 mb-4">Feel free to contact us for admissions, programs, hostel, transport, and school information.</p>
+          
+          <ul className="grid gap-2 text-sm text-white/75 mb-4" aria-label="Contact info">
+            <li className="flex items-start gap-2">
+              <MapPin size={16} className="text-[#3eaea6] mt-0.5 shrink-0" />
+              <span>{school.address}</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone size={16} className="text-[#3eaea6] shrink-0" />
+              <a className="hover:text-[#ff7b3b]" href="tel:+97725535533">{school.phone}</a>
+            </li>
+            <li className="flex items-center gap-2">
+              <MailIcon size={16} className="text-[#3eaea6] shrink-0" />
+              <a className="hover:text-[#ff7b3b]" href={`mailto:${school.email}`}>{school.email}</a>
+            </li>
+          </ul>
+
           <div className="mt-4 flex gap-2" aria-label="Social links">
             {[
               { icon: Users, href: "/", label: "Community" },
