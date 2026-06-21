@@ -136,6 +136,19 @@ const CodeIcon = (props: any) => (
   </svg>
 );
 
+const FacebookIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+  </svg>
+);
+
 // Program specific galleries (mapped to matching assets in public/images)
 const programGalleries: Record<string, { src: string; caption: string }[]> = {
   "montessori": [
@@ -327,6 +340,17 @@ export default async function ProgramDetailPage({ params }: Props) {
   const program = programs.find((item) => item.slug === slug);
   if (!program) notFound();
 
+  // Determine correct Facebook link and label based on slug
+  let facebookLink = "https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr";
+  let facebookLabel = "School Social Media";
+  if (slug === "montessori") {
+    facebookLink = "https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr";
+    facebookLabel = "Montessori Wing Facebook";
+  } else if (["science", "management", "computer-science", "grade-xi-xii"].includes(slug)) {
+    facebookLink = "https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr";
+    facebookLabel = "+2 Wing Facebook";
+  }
+
   // Find other programs for internal recommendations
   const otherPrograms = programs.filter((p) => p.slug !== slug).slice(0, 3);
   const gallery = programGalleries[slug] || [];
@@ -462,6 +486,26 @@ export default async function ProgramDetailPage({ params }: Props) {
                     Contact Admissions
                   </Link>
                 </div>
+              </div>
+
+              {/* Social Media Connection Card */}
+              <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100/60 relative overflow-hidden flex flex-col justify-between">
+                <div>
+                  <h4 className="text-xs font-black uppercase text-[#10233f] tracking-wide mb-3 flex items-center gap-1.5">
+                    <FacebookIcon className="text-[#1877f2] shrink-0" size={18} /> {facebookLabel}
+                  </h4>
+                  <p className="text-xs text-[#657184] leading-relaxed font-medium mb-4">
+                    Stay connected and get the latest updates, event photos, activities, and announcements for this level on our official Facebook page.
+                  </p>
+                </div>
+                <a
+                  href={facebookLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-[42px] items-center justify-center gap-2 rounded-full bg-[#1877f2] hover:bg-[#166fe5] text-center text-xs font-extrabold uppercase tracking-wider text-white transition-all duration-300 shadow-sm"
+                >
+                  <FacebookIcon size={16} /> Visit Our Social Media
+                </a>
               </div>
 
               {/* SEE Excellence snippets */}

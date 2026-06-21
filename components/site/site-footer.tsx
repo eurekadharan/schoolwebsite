@@ -24,6 +24,20 @@ const MailIcon = ({ size = 16, className = "" }: { size?: number; className?: st
   </svg>
 );
 
+const FacebookIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+  </svg>
+);
+
+
 export function NewsletterStrip() {
   const [status, setStatus] = useState("");
 
@@ -108,6 +122,24 @@ export function SiteFooter() {
               <a className="hover:text-[#ff7b3b]" href={`mailto:${school.email}`}>{school.email}</a>
             </li>
           </ul>
+
+          <div className="mt-4 border-t border-white/10 pt-4 mb-4" aria-label="Facebook Pages">
+            <h4 className="text-xs uppercase font-black text-white/50 tracking-wider mb-2">Our Facebook Pages</h4>
+            <ul className="grid gap-2 text-sm text-white/75">
+              <li className="flex items-center gap-2">
+                <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
+                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/1R4ZBMcV4L/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">School Official</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
+                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/14d8ScrgzRt/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Montessori Wing</a>
+              </li>
+              <li className="flex items-center gap-2">
+                <FacebookIcon size={16} className="text-[#3eaea6] shrink-0" />
+                <a className="hover:text-[#ff7b3b]" href="https://www.facebook.com/share/1Gg59m8NY1/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">+2 Wing</a>
+              </li>
+            </ul>
+          </div>
 
           <div className="mt-4 flex gap-2" aria-label="Social links">
             {[
