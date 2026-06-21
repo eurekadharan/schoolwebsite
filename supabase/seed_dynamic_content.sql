@@ -137,7 +137,7 @@ ON CONFLICT (id) DO UPDATE SET
   is_active = EXCLUDED.is_active;
 
 -- 6. Seed Pages (dynamic page contents e.g. about page)
-INSERT INTO public.pages (id, slug, title, excerpt, body, status, published_at, created_by)
+INSERT INTO public.pages (id, slug, title, excerpt, body, status, published_at)
 VALUES (
   'da000000-0000-0000-0000-000000000001',
   'about',
@@ -189,8 +189,7 @@ VALUES (
     ]
   }'::jsonb,
   'published',
-  now(),
-  'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8'
+  now()
 )
 ON CONFLICT (slug) DO UPDATE SET
   title = EXCLUDED.title,
@@ -200,7 +199,7 @@ ON CONFLICT (slug) DO UPDATE SET
   published_at = EXCLUDED.published_at;
 
 -- Seed life-at-eureka page block
-INSERT INTO public.pages (id, slug, title, excerpt, body, status, published_at, created_by)
+INSERT INTO public.pages (id, slug, title, excerpt, body, status, published_at)
 VALUES (
   'da000000-0000-0000-0000-000000000002',
   'life-at-eureka',
@@ -301,8 +300,7 @@ VALUES (
     ]
   }'::jsonb,
   'published',
-  now(),
-  'd8d8d8d8-d8d8-d8d8-d8d8-d8d8d8d8d8d8'
+  now()
 )
 ON CONFLICT (slug) DO UPDATE SET
   title = EXCLUDED.title,
