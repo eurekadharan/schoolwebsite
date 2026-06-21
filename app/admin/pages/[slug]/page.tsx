@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getPageBySlug } from "@/lib/pages-store";
 import { adminUpdateAboutPage } from "../actions";
 import { ImageUploader } from "@/components/admin/image-uploader";
+import LifeAtEurekaEditor from "@/components/admin/life-at-eureka-editor";
 
 const ChevronLeftIcon = ({ size = 16 }: { size?: number }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -30,8 +31,27 @@ export default async function AdminEditPageBlocks({ params }: Props) {
 
   if (!page) notFound();
 
-  // We only support About Page blocks in this premium release
-  if (slug !== "about") {
+  if (slug === "life-at-eureka") {
+    return (
+      <>
+        <div className="admin-topbar mb-8">
+          <Link
+            href="/admin/pages"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-[#ff7b3b] transition mb-3"
+          >
+            <ChevronLeftIcon size={14} /> Back to List
+          </Link>
+          <h1 className="text-3xl font-black text-[#10233f]">Edit Life at Eureka blocks</h1>
+          <p className="text-slate-500 text-sm mt-1">Configure Sports facilities, Clubs, Photo Gallery, and Video Gallery showcase.</p>
+        </div>
+
+        <LifeAtEurekaEditor page={page} />
+      </>
+    );
+  }
+
+  // We only support About Page and Life at Eureka page blocks in this premium release
+  if (slug !== "about" && slug !== "life-at-eureka") {
     return (
       <>
         <div className="admin-topbar mb-8">
@@ -41,7 +61,7 @@ export default async function AdminEditPageBlocks({ params }: Props) {
           <h1 className="text-3xl font-black text-[#10233f]">Edit Page: {page.title}</h1>
         </div>
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-8 text-center text-slate-500">
-          <p>Editor layout for this page is currently under construction. Please use it to manage the **About Us** page blocks.</p>
+          <p>Editor layout for this page is currently under construction. Please use it to manage the **About Us** or **Life at Eureka** page blocks.</p>
         </div>
       </>
     );

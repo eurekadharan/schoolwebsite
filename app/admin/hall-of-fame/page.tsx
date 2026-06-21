@@ -1,7 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getAchievements } from "@/lib/achievements-store";
 import { adminDeleteAchievement } from "./actions";
+import SafeImage from "@/components/safe-image";
+import ConfirmDeleteForm from "@/components/admin/confirm-delete-form";
 
 const TrophyIcon = ({ size = 16, className = "" }: { size?: number; className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -46,7 +47,7 @@ const PlusIcon = () => (
 
 export const revalidate = 0; // Fresh list always
 
-export default async function AdminAchievementsPage() {
+export default async function AdminHallOfFamePage() {
   const achievements = await getAchievements(true); // include drafts
 
   return (
@@ -54,11 +55,11 @@ export default async function AdminAchievementsPage() {
       <div className="admin-topbar flex items-center justify-between mb-8">
         <div>
           <span className="eyebrow text-xs uppercase text-slate-400 font-bold tracking-wider">Module</span>
-          <h1 className="text-3xl font-black text-[#10233f]">Achievements Management</h1>
-          <p className="text-slate-500 text-sm mt-1">Add, update, or remove student achievements, toppers, and awards.</p>
+          <h1 className="text-3xl font-black text-[#10233f]">Hall of Fame Management</h1>
+          <p className="text-slate-500 text-sm mt-1">Add, update, or remove school toppers, successful alumni, and students excelling worldwide.</p>
         </div>
-        <Link className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-[#ff7b3b] px-5 py-2 text-xs font-black uppercase tracking-wider text-white hover:bg-[#3eaea6] transition" href="/admin/achievements/new">
-          <PlusIcon /> New Achievement
+        <Link className="inline-flex min-h-[40px] items-center gap-1.5 rounded-full bg-[#ff7b3b] px-5 py-2 text-xs font-black uppercase tracking-wider text-white hover:bg-[#3eaea6] transition" href="/admin/hall-of-fame/new">
+          <PlusIcon /> New Entry
         </Link>
       </div>
 
@@ -87,7 +88,7 @@ export default async function AdminAchievementsPage() {
                     <tr key={item.id} className="hover:bg-slate-50/50 transition">
                       <td className="px-6 py-4 font-medium text-slate-900 flex items-center gap-3">
                         <div className="relative h-10 w-10 rounded bg-slate-50 border overflow-hidden flex items-center justify-center shrink-0">
-                          <Image src={item.cover_image} alt="" fill sizes="40px" className="object-contain" />
+                          <SafeImage src={item.cover_image} alt="" className="object-contain w-full h-full" />
                         </div>
                         <div>
                           <div className="font-bold text-[#10233f] text-base">{item.title}</div>
@@ -116,32 +117,28 @@ export default async function AdminAchievementsPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-2.5">
-                          <Link
-                            href={`/admin/achievements/${item.id}`}
+                           <Link
+                            href={`/admin/hall-of-fame/${item.id}`}
                             className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-600 hover:bg-[#3eaea6] hover:text-white hover:border-transparent transition"
-                            title="Edit Achievement"
+                            title="Edit Entry"
                           >
                             <EditIcon />
                           </Link>
-                          <form
+                          <ConfirmDeleteForm
                             action={async () => {
                               "use server";
                               await adminDeleteAchievement(item.id);
                             }}
+                            confirmMessage="Are you sure you want to delete this hall of fame entry? This action is permanent."
                           >
                             <button
                               type="submit"
                               className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-[#b42318] hover:bg-[#b42318] hover:text-white hover:border-transparent transition"
-                              title="Delete Achievement"
-                              onClick={(e) => {
-                                if (!confirm("Are you sure you want to delete this achievement? This action is permanent.")) {
-                                  e.preventDefault();
-                                }
-                              }}
+                              title="Delete Entry"
                             >
                               <TrashIcon />
                             </button>
-                          </form>
+                          </ConfirmDeleteForm>
                         </div>
                       </td>
                     </tr>

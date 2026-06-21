@@ -7,7 +7,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const customSections = ["events", "achievements", "banners", "blogs", "notices", "pages", "media"];
+  const customSections = ["events", "hall-of-fame", "banners", "blogs", "notices", "pages", "media", "gallery"];
   return [
     ...adminModules
       .map((module) => module.href.split("/").pop()!)

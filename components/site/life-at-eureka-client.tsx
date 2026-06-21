@@ -185,25 +185,96 @@ const galleryImagesList = [
   { src: "/images/kids singing.jpeg", category: "Celebrations", title: "Music Class Performance" }
 ];
 
-export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
+const iconMap: Record<string, any> = {
+  Cpu: Cpu,
+  MessageSquare: MessageSquare,
+  Microscope: Microscope,
+  Palette: Palette,
+  Trophy: Trophy,
+  Check: Check,
+  Sparkles: Sparkles,
+  Camera: Camera
+};
+
+function getClubIcon(iconName: any) {
+  if (!iconName) return Trophy;
+  if (typeof iconName === "function" || (iconName && typeof iconName === "object" && (iconName as any).$$typeof)) {
+    return iconName;
+  }
+  if (typeof iconName === "string") {
+    return iconMap[iconName] || Trophy;
+  }
+  return iconName;
+}
+
+function getVideoEmbedUrl(url: string): string {
+  if (!url) return "";
+  if (url.includes("youtube.com") || url.includes("youtu.be")) {
+    let videoId = "";
+    if (url.includes("youtube.com/watch")) {
+      const match = url.match(/[?&]v=([^&#]+)/);
+      if (match) videoId = match[1];
+    } else if (url.includes("youtu.be/")) {
+      const match = url.match(/youtu\.be\/([^?&#]+)/);
+      if (match) videoId = match[1];
+    } else if (url.includes("youtube.com/embed/")) {
+      const match = url.match(/youtube\.com\/embed\/([^?&#]+)/);
+      if (match) videoId = match[1];
+    }
+    if (videoId) {
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&rel=0`;
+    }
+  }
+  if (url.includes("drive.google.com")) {
+    const match = url.match(/\/file\/d\/([^/]+)/);
+    if (match) {
+      const fileId = match[1];
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+  }
+  return url;
+}
+
+export function LifeAtEurekaClient({ page }: { page: any }) {
+  const sports = page?.body?.sports || sportsList;
+  const clubs = page?.body?.clubs || clubsList;
+  const gallery = page?.body?.gallery || galleryImagesList;
+  const videos = page?.body?.videos || [
+    {
+      title: "Eureka Campus Video Tour",
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      title: "Holistic Sports and Futsal Match",
+      url: "https://drive.google.com/file/d/1Xy8y_q2S9G_g_L-z_Ww_G7_v9w_P9G_/view"
+    }
+  ];
+
+  const eyebrowText = page?.eyebrow || "Student Life";
+  const heroImage = page?.image || "/images/christmas celebration.jpg";
+
   const [activeTab, setActiveTab] = useState("All");
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [events, setEvents] = useState<SchoolEvent[]>([]);
   
   // Video Player states
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [videoTime, setVideoTime] = useState("0:00");
+  const [selectedVideo, setSelectedVideo] = useState(videos[0] || null);
+  const [isClientPlaying, setIsClientPlaying] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (videos && videos.length > 0) {
+      setSelectedVideo(videos[0]);
+    }
+  }, [videos]);
 
   // Gallery categories list
   const categories = ["All", "Celebrations", "Exhibitions", "Outreach", "Community"];
 
   // Filter gallery
   const filteredGallery = activeTab === "All" 
-    ? galleryImagesList 
-    : galleryImagesList.filter(item => item.category === activeTab);
+    ? gallery 
+    : gallery.filter((item: any) => item.category === activeTab);
 
   // Fetch events
   useEffect(() => {
@@ -216,27 +287,6 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
       })
       .catch((err) => console.error("Error loading events previews on life page:", err));
   }, []);
-
-  // Simulate progress bar when simulated video is playing
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            setIsPlaying(false);
-            return 0;
-          }
-          const next = prev + 1;
-          const mins = Math.floor((next * 1.8) / 60);
-          const secs = Math.floor((next * 1.8) % 60);
-          setVideoTime(`${mins}:${secs < 10 ? "0" : ""}${secs}`);
-          return next;
-        });
-      }, 500);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
 
   const handlePrevImage = () => {
     if (selectedImageIndex !== null) {
@@ -255,7 +305,7 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
       {/* Hero Banner Section */}
       <section className="relative isolate flex min-h-[380px] items-center overflow-hidden text-white max-md:min-h-[280px]">
         <Image 
-          src={page.image} 
+          src={heroImage} 
           alt={page.title} 
           fill 
           sizes="100vw" 
@@ -265,7 +315,7 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#2b2e3d]/90 via-[#2b2e3d]/70 to-[#2b2e3d]/40" />
         <div className={container}>
           <div className="max-w-[760px]">
-            <span className={eyebrow}>{page.eyebrow}</span>
+            <span className={eyebrow}>{eyebrowText}</span>
             <h1 className="text-balance text-[clamp(32px,5.5vw,56px)] font-black leading-tight text-white">{page.title}</h1>
             <p className="mt-4 text-base md:text-lg leading-relaxed text-white/90">
               At Eureka, student life is vibrant, engaging, and holistic. Beyond academic excellence, we prioritize physical health, creativity, scientific inquiry, and social responsibility.
@@ -317,7 +367,7 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
           </div>
 
           <div className="grid grid-cols-4 gap-6 max-xl:grid-cols-2 max-md:grid-cols-1">
-            {sportsList.map((sport) => (
+            {sports.map((sport: any) => (
               <article key={sport.title} className="group overflow-hidden rounded-xl bg-white border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-md transition duration-300">
                 <div>
                   <div className="relative h-[180px] w-full overflow-hidden">
@@ -344,7 +394,7 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
                 </div>
                 <div className="px-5 pb-5 pt-3 border-t border-slate-50 bg-slate-50/50">
                   <ul className="grid grid-cols-2 gap-x-2 gap-y-1.5 text-[10px] font-semibold text-[#2e2c2c]">
-                    {sport.details.map((detail, idx) => (
+                    {sport.details.map((detail: string, idx: number) => (
                       <li key={idx} className="flex items-center gap-1">
                         <Check size={11} className="text-[#3eaea6] shrink-0" />
                         <span className="truncate">{detail}</span>
@@ -370,8 +420,8 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
           </div>
 
           <div className="grid grid-cols-2 gap-8 max-lg:grid-cols-1">
-            {clubsList.map((club) => {
-              const ClubIcon = club.icon;
+            {clubs.map((club: any) => {
+              const ClubIcon = getClubIcon(club.icon);
               return (
                 <article 
                   key={club.title} 
@@ -415,114 +465,106 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
       <section className="py-[75px] max-md:py-14 bg-slate-900 text-white relative isolate overflow-hidden" id="video">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(62,174,166,0.15),transparent)] pointer-events-none" />
         <div className={container}>
-          <div className="grid grid-cols-[1.1fr_1.3fr] gap-12 items-center max-lg:grid-cols-1">
-            <div>
-              <span className="mb-4 inline-flex min-h-7 items-center rounded-full bg-[#3eaea6]/20 px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]">
-                Watch Us In Action
-              </span>
-              <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Experience the energy of life at {school.shortName}</h2>
-              <p className="mt-5 text-slate-300 leading-relaxed text-sm">
-                Take a virtual tour through our modern facilities, witness our annual cultural fests, listen to coordinator insights, and see how classroom theories merge with practical robotics models.
-              </p>
-              
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                <div className="border-l-[3px] border-[#ff7b3b] pl-3">
-                  <span className="block text-xl font-bold text-white">10+</span>
-                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Event Highlight Reels</span>
-                </div>
-                <div className="border-l-[3px] border-[#3eaea6] pl-3">
-                  <span className="block text-xl font-bold text-white">4K UHD</span>
-                  <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Campus Video Tours</span>
-                </div>
-              </div>
-            </div>
+          <div className="mx-auto mb-10 max-w-[760px] text-center">
+            <span className="mb-4 inline-flex min-h-7 items-center rounded-full bg-[#3eaea6]/20 px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]">
+              Watch Us In Action
+            </span>
+            <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Experience the energy of life at {school.shortName}</h2>
+            <p className="mt-4 text-slate-300 leading-relaxed text-sm">
+              Take a tour through our modern facilities, witness our annual fests, sports events, and see how classroom theories merge with practical student projects.
+            </p>
+          </div>
 
-            {/* Simulated Interactive Video Player */}
-            <div className="relative overflow-hidden rounded-2xl bg-black border border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-              <div className="relative aspect-[16/9] w-full">
-                <Image 
-                  src="/images/kids singing.jpeg" 
-                  alt="Video cover thumbnail" 
-                  fill 
-                  className={`object-cover transition-opacity duration-700 ${isPlaying ? "opacity-30 scale-102" : "opacity-85"}`}
-                />
-                
-                {/* Custom Overlay for Interactive Playing */}
-                {isPlaying ? (
-                  <div className="absolute inset-0 flex flex-col justify-between p-4 z-10 bg-black/40">
-                    <div className="flex items-center justify-between text-xs text-white bg-black/25 backdrop-blur-sm px-3 py-1.5 rounded-lg">
-                      <span className="flex items-center gap-1.5 font-semibold text-[#3eaea6]">
-                        <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" /> Playing: Eureka Campus Highlights
-                      </span>
-                      <span>{videoTime} / 3:00</span>
-                    </div>
-
-                    <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#ff7b3b] text-white shadow-lg cursor-pointer hover:scale-105 transition" onClick={() => setIsPlaying(false)}>
-                      <span className="text-xs font-black uppercase">PAUSE</span>
-                    </div>
-
-                    <div className="text-center text-[10px] text-slate-300 font-medium">
-                      Simulated Campus Tour Demo Program
-                    </div>
-                  </div>
+          <div className="grid grid-cols-[1.5fr_1fr] gap-8 items-start max-lg:grid-cols-1">
+            {/* Active Video Player */}
+            <div className="flex flex-col gap-4">
+              <div className="relative overflow-hidden rounded-2xl bg-black border border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)] aspect-[16/9] w-full">
+                {isClientPlaying && selectedVideo ? (
+                  <iframe 
+                    src={getVideoEmbedUrl(selectedVideo.url)}
+                    title={selectedVideo.title}
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
                 ) : (
-                  <div className="absolute inset-0 flex flex-col justify-center items-center bg-black/25 hover:bg-black/40 transition duration-300 cursor-pointer" onClick={() => setIsPlaying(true)}>
-                    <span className="grid h-16 w-16 place-items-center rounded-full bg-white/15 text-white backdrop-blur-md shadow-xl border border-white/20 transition-all hover:scale-110 hover:bg-[#ff7b3b] hover:border-transparent duration-300">
+                  <div className="absolute inset-0 flex flex-col justify-center items-center bg-black/45 hover:bg-black/60 transition duration-300 cursor-pointer" onClick={() => setIsClientPlaying(true)}>
+                    <Image 
+                      src="/images/kids singing.jpeg" 
+                      alt="Video cover thumbnail" 
+                      fill 
+                      className="object-cover opacity-60"
+                    />
+                    <span className="grid h-16 w-16 place-items-center rounded-full bg-white/15 text-white backdrop-blur-md shadow-xl border border-white/20 transition-all hover:scale-110 hover:bg-[#ff7b3b] hover:border-transparent duration-300 z-10">
                       <Play size={28} className="translate-x-0.5 text-white fill-white" />
                     </span>
-                    <span className="mt-4 text-xs font-bold uppercase tracking-wider text-white bg-slate-900/60 backdrop-blur-sm px-3 py-1 rounded">
-                      Play Highlight Tour
+                    <span className="mt-4 text-xs font-bold uppercase tracking-wider text-white bg-slate-900/80 backdrop-blur-sm px-4 py-1.5 rounded z-10 border border-slate-800">
+                      Play: {selectedVideo?.title || "Video"}
                     </span>
                   </div>
                 )}
               </div>
-
-              {/* Player Dashboard Controls */}
-              <div className="bg-slate-950 p-4 flex flex-col gap-3">
-                {/* Progress bar */}
-                <div className="relative h-1 w-full bg-slate-800 rounded overflow-hidden cursor-pointer" onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const newPercent = (clickX / rect.width) * 100;
-                  setProgress(newPercent);
-                  const totalSecs = Math.floor((newPercent / 100) * 180);
-                  const mins = Math.floor(totalSecs / 60);
-                  const secs = totalSecs % 60;
-                  setVideoTime(`${mins}:${secs < 10 ? "0" : ""}${secs}`);
-                }}>
-                  <div className="absolute top-0 left-0 h-full bg-[#ff7b3b] transition-all" style={{ width: `${progress}%` }} />
-                </div>
-
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <div className="flex items-center gap-3.5">
-                    <button 
-                      onClick={() => setIsPlaying(!isPlaying)} 
-                      className="text-white hover:text-[#ff7b3b] transition font-bold"
-                    >
-                      {isPlaying ? "PAUSE" : "PLAY"}
-                    </button>
-                    <button 
-                      onClick={() => setIsMuted(!isMuted)} 
-                      className="hover:text-white transition"
-                    >
-                      {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
-                    </button>
-                    <span className="font-mono text-[10px]">{videoTime} / 3:00</span>
+              
+              {/* Video Controls & Info */}
+              {selectedVideo && (
+                <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-800/80 flex justify-between items-center max-sm:flex-col max-sm:items-start gap-3">
+                  <div>
+                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-[#ff7b3b] shrink-0" />
+                      {selectedVideo.title}
+                    </h3>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Playing from: {selectedVideo.url.includes("youtube") || selectedVideo.url.includes("youtu.be") ? "YouTube Video Embed" : "Google Drive Player"}
+                    </p>
                   </div>
                   <button 
                     onClick={() => setVideoModalOpen(true)} 
-                    className="hover:text-white transition flex items-center gap-1 text-[11px]"
+                    className="hover:text-[#ff7b3b] text-slate-300 transition flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-slate-950 px-3 py-1.5 rounded border border-slate-800 shrink-0"
                   >
-                    <Maximize2 size={12} /> Expand
+                    <Maximize2 size={12} /> Fullscreen
                   </button>
                 </div>
+              )}
+            </div>
+
+            {/* Playlist Sidebar */}
+            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 flex flex-col gap-4 self-stretch max-h-[380px] overflow-y-auto">
+              <h3 className="text-xs font-black uppercase text-[#3eaea6] tracking-wider pb-2 border-b border-slate-800">
+                Video Playlist ({videos.length})
+              </h3>
+              <div className="grid gap-2">
+                {videos.map((vid: any, vIdx: number) => {
+                  const isCurrent = selectedVideo?.url === vid.url;
+                  return (
+                    <button
+                      key={vIdx}
+                      onClick={() => {
+                        setSelectedVideo(vid);
+                        setIsClientPlaying(true);
+                      }}
+                      className={`w-full text-left p-3 rounded-lg border transition flex items-start gap-3 ${
+                        isCurrent
+                          ? "bg-[#ff7b3b]/10 border-[#ff7b3b] text-white"
+                          : "bg-slate-900/40 border-slate-800 text-slate-300 hover:bg-slate-900/80 hover:text-white"
+                      }`}
+                    >
+                      <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-[10px] ${isCurrent ? "bg-[#ff7b3b] text-white" : "bg-slate-800 text-slate-400"}`}>
+                        <Play size={8} className="translate-x-0.5 fill-current" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <h4 className="text-xs font-bold truncate">{vid.title}</h4>
+                        <p className="text-[10px] text-slate-500 mt-0.5 truncate">{vid.url}</p>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
         </div>
 
         {/* Video Fullscreen Modal Overlay */}
-        {videoModalOpen && (
+        {videoModalOpen && selectedVideo && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4" role="dialog" aria-modal="true">
             <div className="relative w-full max-w-[940px] aspect-[16/9] bg-black rounded-lg overflow-hidden border border-slate-800 shadow-2xl">
               <button 
@@ -534,8 +576,8 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
               </button>
               
               <iframe 
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-                title="Eureka Campus Video Tour"
+                src={getVideoEmbedUrl(selectedVideo.url)}
+                title={selectedVideo.title}
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -655,7 +697,7 @@ export function LifeAtEurekaClient({ page }: { page: PageSummary }) {
 
           {/* Photo Grid */}
           <div className="grid grid-cols-4 gap-6 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-            {filteredGallery.map((item, idx) => (
+            {filteredGallery.map((item: any, idx: number) => (
               <div 
                 key={idx} 
                 className="group relative aspect-square w-full rounded-xl overflow-hidden border border-slate-100 bg-white shadow-sm cursor-pointer"

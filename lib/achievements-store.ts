@@ -14,6 +14,7 @@ export interface Achievement {
   achievement_date: string;
   status: "draft" | "published" | "archived";
   published_at?: string;
+  sort_order?: number;
   created_at?: string;
   updated_at?: string;
 }
@@ -57,6 +58,7 @@ export async function getAchievements(includeDrafts = false): Promise<Achievemen
         achievement_date,
         status,
         published_at,
+        sort_order,
         image_id
       `);
 
@@ -64,31 +66,42 @@ export async function getAchievements(includeDrafts = false): Promise<Achievemen
         query = query.eq("status", "published").lte("published_at", new Date().toISOString());
       }
 
-      // Sort by achievement_date descending, then category descending
-      query = query.order("achievement_date", { ascending: false });
+      // Sort by sort_order ascending, then achievement_date descending
+      query = query.order("sort_order", { ascending: true }).order("achievement_date", { ascending: false });
 
       const { data, error } = await query;
       if (error) throw error;
 
       if (data) {
         // Fetch all media assets to map image paths
-        const { data: mediaData } = await supabase.from("media_assets").select("id, path");
-        const mediaMap = new Map(mediaData?.map((m) => [m.id, m.path]) || []);
+        const { data: mediaData } = await supabase.from("media_assets").select("id, bucket, path");
+        const mediaMap = new Map<string, { bucket: string; path: string }>(
+          mediaData?.map((m) => [m.id, { bucket: m.bucket, path: m.path }]) || []
+        );
 
-        return data.map((item: any) => ({
-          id: item.id,
-          slug: item.slug,
-          title: item.title,
-          category: item.category || "",
-          summary: item.summary || "",
-          body: item.body ? (typeof item.body === "string" ? item.body : JSON.stringify(item.body)) : "",
-          cover_image: item.image_id && mediaMap.has(item.image_id)
-            ? `/${mediaMap.get(item.image_id)}`
-            : "/images/staffs.jpg", // fallback to staff team or custom default
-          achievement_date: item.achievement_date || "",
-          status: item.status,
-          published_at: item.published_at
-        }));
+        return data.map((item: any) => {
+          let cover_image = "/images/staffs.jpg";
+          if (item.image_id && mediaMap.has(item.image_id)) {
+            const media = mediaMap.get(item.image_id)!;
+            cover_image = media.bucket === "external"
+              ? media.path
+              : (media.path.startsWith("/") ? media.path : `/${media.path}`);
+          }
+
+          return {
+            id: item.id,
+            slug: item.slug,
+            title: item.title,
+            category: item.category || "",
+            summary: item.summary || "",
+            body: item.body ? (typeof item.body === "string" ? item.body : JSON.stringify(item.body)) : "",
+            cover_image,
+            achievement_date: item.achievement_date || "",
+            status: item.status,
+            published_at: item.published_at,
+            sort_order: item.sort_order || 0
+          };
+        });
       }
     } catch (err) {
       console.warn("Supabase achievements query failed, falling back to local storage:", err);
@@ -102,8 +115,11 @@ export async function getAchievements(includeDrafts = false): Promise<Achievemen
       (a) => a.status === "published"
     );
   }
-  // Sort by achievement_date desc, then by category desc
+  // Sort by sort_order ascending, then achievement_date desc, then by category desc
   return localAchievements.sort((a, b) => {
+    const orderA = a.sort_order ?? 0;
+    const orderB = b.sort_order ?? 0;
+    if (orderA !== orderB) return orderA - orderB;
     const dateCompare = new Date(b.achievement_date).getTime() - new Date(a.achievement_date).getTime();
     if (dateCompare !== 0) return dateCompare;
     return b.category.localeCompare(a.category);
@@ -126,6 +142,7 @@ export async function getAchievementBySlug(slug: string): Promise<Achievement | 
           achievement_date,
           status,
           published_at,
+          sort_order,
           image_id
         `)
         .eq("slug", slug)
@@ -137,10 +154,14 @@ export async function getAchievementBySlug(slug: string): Promise<Achievement | 
         if (data.image_id) {
           const { data: media } = await supabase
             .from("media_assets")
-            .select("path")
+            .select("bucket, path")
             .eq("id", data.image_id)
             .maybeSingle();
-          if (media) cover_image = `/${media.path}`;
+          if (media) {
+            cover_image = media.bucket === "external"
+              ? media.path
+              : (media.path.startsWith("/") ? media.path : `/${media.path}`);
+          }
         }
 
         return {
@@ -153,7 +174,8 @@ export async function getAchievementBySlug(slug: string): Promise<Achievement | 
           cover_image,
           achievement_date: data.achievement_date || "",
           status: data.status,
-          published_at: data.published_at
+          published_at: data.published_at,
+          sort_order: data.sort_order || 0
         };
       }
     } catch (err) {
@@ -181,6 +203,7 @@ export async function getAchievementById(id: string): Promise<Achievement | null
           achievement_date,
           status,
           published_at,
+          sort_order,
           image_id
         `)
         .eq("id", id)
@@ -192,10 +215,14 @@ export async function getAchievementById(id: string): Promise<Achievement | null
         if (data.image_id) {
           const { data: media } = await supabase
             .from("media_assets")
-            .select("path")
+            .select("bucket, path")
             .eq("id", data.image_id)
             .maybeSingle();
-          if (media) cover_image = `/${media.path}`;
+          if (media) {
+            cover_image = media.bucket === "external"
+              ? media.path
+              : (media.path.startsWith("/") ? media.path : `/${media.path}`);
+          }
         }
 
         return {
@@ -208,7 +235,8 @@ export async function getAchievementById(id: string): Promise<Achievement | null
           cover_image,
           achievement_date: data.achievement_date || "",
           status: data.status,
-          published_at: data.published_at
+          published_at: data.published_at,
+          sort_order: data.sort_order || 0
         };
       }
     } catch (err) {
@@ -272,6 +300,7 @@ export async function createAchievement(achievementData: Omit<Achievement, "id">
           achievement_date: newAchievement.achievement_date || new Date().toISOString().split("T")[0],
           status: newAchievement.status,
           published_at: newAchievement.published_at || (newAchievement.status === "published" ? new Date().toISOString() : null),
+          sort_order: newAchievement.sort_order ?? 0,
           image_id
         })
         .select()
@@ -338,6 +367,7 @@ export async function updateAchievement(id: string, updatedFields: Partial<Achie
       if (updatedFields.summary !== undefined) dbUpdate.summary = updatedFields.summary;
       if (updatedFields.body !== undefined) dbUpdate.body = updatedFields.body;
       if (updatedFields.achievement_date !== undefined) dbUpdate.achievement_date = updatedFields.achievement_date;
+      if (updatedFields.sort_order !== undefined) dbUpdate.sort_order = updatedFields.sort_order;
       if (updatedFields.status !== undefined) {
         dbUpdate.status = updatedFields.status;
         if (updatedFields.status === "published") {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getAchievements } from "@/lib/achievements-store";
 import { getPageSummary } from "@/lib/site-data";
+import SafeImage from "@/components/safe-image";
 
 export const metadata: Metadata = {
   title: "Hall of Fame | Eureka Residential Secondary School",
@@ -50,12 +51,10 @@ export default async function HallOfFamePage() {
               >
                 {/* PP Size Photo Box */}
                 <div className="relative h-[120px] w-[120px] rounded-full bg-slate-100 border-2 border-[#3eaea6] overflow-hidden flex items-center justify-center mb-4 shrink-0">
-                  <Image
+                  <SafeImage
                     src={item.cover_image || "/images/staffs.jpg"}
                     alt={item.title}
-                    fill
-                    sizes="120px"
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 

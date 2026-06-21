@@ -50,7 +50,7 @@ export function NewsletterStrip() {
 export function SiteFooter() {
   return (
     <footer className="bg-[#2b2e3d] text-white">
-      <div className="mx-auto grid max-w-[1140px] grid-cols-[1.25fr_.85fr_1fr_1.2fr] gap-9 px-4 py-14 max-lg:grid-cols-2 max-md:grid-cols-1">
+      <div className="mx-auto grid max-w-[1140px] grid-cols-[1.25fr_.85fr_1fr] gap-9 px-4 py-10 max-md:grid-cols-1">
         <div>
           <h3 className="mb-3 text-lg font-bold">About</h3>
           <p className="text-sm text-white/75">Forge your path forward with Eureka Residential Secondary School.</p>
@@ -89,28 +89,6 @@ export function SiteFooter() {
                 </Link>
               );
             })}
-          </div>
-        </div>
-
-        <div>
-          <h3 className="mb-3 text-lg font-bold">Our Contacts & Locations</h3>
-          <p className="text-sm text-white/75">Empowering students to lead tomorrow&apos;s world. Join us on the Eureka journey today.</p>
-          <div className="mt-4 border-t border-white/15 pt-4">
-            <h3 className="mb-2 text-lg font-bold">Dharan School</h3>
-            <p className="text-sm text-white/75">{school.address}</p>
-            <p className="text-sm text-white/75">{school.email}</p>
-            <p className="text-sm text-white/75">{school.phone}</p>
-          </div>
-          <div className="mt-4 overflow-hidden rounded border border-white/10">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.178454099108!2d85.30071787546865!3d27.74264127616226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb18cfd52af84f%3A0xd2aaab154f359e60!2sEureka%20High%20School!5e0!3m2!1sen!2snp!4v1781941516157!5m2!1sen!2snp"
-              width="100%"
-              height="150"
-              style={{ border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
           </div>
         </div>
       </div>

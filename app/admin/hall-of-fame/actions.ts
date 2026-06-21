@@ -13,6 +13,7 @@ export async function adminCreateAchievement(formData: FormData) {
   const cover_image = String(formData.get("cover_image") || "").trim() || "/images/staffs.jpg";
   const achievement_date = String(formData.get("achievement_date") || "").trim() || new Date().toISOString().split("T")[0];
   const status = (formData.get("status") as "draft" | "published" | "archived") || "draft";
+  const sort_order = Number(formData.get("sort_order") ?? 0);
 
   if (!title || !category || !summary) {
     throw new Error("Title (Name), Category (Batch), and Summary (Success details) are required.");
@@ -27,13 +28,14 @@ export async function adminCreateAchievement(formData: FormData) {
     cover_image,
     achievement_date,
     status,
-    published_at: status === "published" ? new Date().toISOString() : undefined
+    published_at: status === "published" ? new Date().toISOString() : undefined,
+    sort_order
   });
 
   revalidatePath("/hall-of-fame");
   revalidatePath("/");
-  revalidatePath("/admin/achievements");
-  redirect("/admin/achievements");
+  revalidatePath("/admin/hall-of-fame");
+  redirect("/admin/hall-of-fame");
 }
 
 export async function adminUpdateAchievement(formData: FormData) {
@@ -46,6 +48,7 @@ export async function adminUpdateAchievement(formData: FormData) {
   const cover_image = String(formData.get("cover_image") || "").trim();
   const achievement_date = String(formData.get("achievement_date") || "").trim();
   const status = formData.get("status") as "draft" | "published" | "archived";
+  const sort_order = Number(formData.get("sort_order") ?? 0);
 
   if (!id || !title || !category || !summary) {
     throw new Error("ID, Title (Name), Category (Batch), and Summary (Success details) are required.");
@@ -60,13 +63,14 @@ export async function adminUpdateAchievement(formData: FormData) {
     cover_image,
     achievement_date,
     status,
-    published_at: status === "published" ? new Date().toISOString() : undefined
+    published_at: status === "published" ? new Date().toISOString() : undefined,
+    sort_order
   });
 
   revalidatePath("/hall-of-fame");
   revalidatePath("/");
-  revalidatePath("/admin/achievements");
-  redirect("/admin/achievements");
+  revalidatePath("/admin/hall-of-fame");
+  redirect("/admin/hall-of-fame");
 }
 
 export async function adminDeleteAchievement(id: string) {
@@ -74,5 +78,5 @@ export async function adminDeleteAchievement(id: string) {
   await deleteAchievement(id);
   revalidatePath("/hall-of-fame");
   revalidatePath("/");
-  revalidatePath("/admin/achievements");
+  revalidatePath("/admin/hall-of-fame");
 }

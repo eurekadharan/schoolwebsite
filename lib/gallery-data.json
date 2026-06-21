@@ -1,0 +1,56 @@
+[
+  {
+    "id": "g0000000-0000-0000-0000-000000000001",
+    "title": "Annual Sports Meet",
+    "cover_image": "/images/students in house dress.jpg",
+    "album": "Sports",
+    "sort_order": 10,
+    "is_featured": true,
+    "is_active": true
+  },
+  {
+    "id": "g0000000-0000-0000-0000-000000000002",
+    "title": "Science Experiments",
+    "cover_image": "/images/student in science  lab.JPG",
+    "album": "Academics",
+    "sort_order": 20,
+    "is_featured": true,
+    "is_active": true
+  },
+  {
+    "id": "g0000000-0000-0000-0000-000000000003",
+    "title": "Computer Practical Class",
+    "cover_image": "/images/seminar in ai.jpg",
+    "album": "Academics",
+    "sort_order": 30,
+    "is_featured": true,
+    "is_active": true
+  },
+  {
+    "id": "g0000000-0000-0000-0000-000000000004",
+    "title": "Montessori Play & Cards",
+    "cover_image": "/images/kids with cards.jpg",
+    "album": "Montessori",
+    "sort_order": 40,
+    "is_featured": true,
+    "is_active": true
+  },
+  {
+    "id": "g0000000-0000-0000-0000-000000000005",
+    "title": "Interactive Smartboard Sessions",
+    "cover_image": "/images/students with smart board.jpg",
+    "album": "Academics",
+    "sort_order": 50,
+    "is_featured": true,
+    "is_active": true
+  },
+  {
+    "id": "g0000000-0000-0000-0000-000000000006",
+    "title": "School morning assembly",
+    "cover_image": "/images/student in assembly.jpg",
+    "album": "Life at school",
+    "sort_order": 60,
+    "is_featured": false,
+    "is_active": true
+  }
+]

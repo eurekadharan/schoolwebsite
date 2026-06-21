@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { type FormEvent, useEffect, useState } from "react";
+import SafeImage from "@/components/safe-image";
 import {
   ArrowUp,
   BookOpen,
@@ -305,8 +306,10 @@ export function SiteHome() {
   const [banners, setBanners] = useState<any[]>([]);
   const [notices, setNotices] = useState<any[]>([]);
   const [blogs, setBlogs] = useState<any[]>([]);
+  const [gallery, setGallery] = useState<any[]>([]);
 
-  const currentGallery = galleryItems[galleryIndex % galleryItems.length];
+  const activeGalleryItems = gallery.length > 0 ? gallery : galleryItems;
+  const currentGallery = activeGalleryItems[galleryIndex % activeGalleryItems.length];
 
   const activeHeroImages = banners.length > 0
     ? banners.map((b) => b.cover_image)
@@ -314,10 +317,10 @@ export function SiteHome() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setGalleryIndex((index) => (index + 1) % galleryItems.length);
+      setGalleryIndex((index) => (index + 1) % activeGalleryItems.length);
     }, 6500);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [activeGalleryItems.length]);
 
   useEffect(() => {
     fetch("/api/banners?placement=home_hero")
@@ -328,6 +331,17 @@ export function SiteHome() {
         }
       })
       .catch((err) => console.error("Error loading home hero banners:", err));
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/gallery")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setGallery(data);
+        }
+      })
+      .catch((err) => console.error("Error loading gallery photos:", err));
   }, []);
 
   useEffect(() => {
@@ -350,14 +364,14 @@ export function SiteHome() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/achievements")
+    fetch("/api/hall-of-fame")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
           setAchievements(data);
         }
       })
-      .catch((err) => console.error("Error loading achievements:", err));
+      .catch((err) => console.error("Error loading hall of fame:", err));
   }, []);
 
   useEffect(() => {
@@ -1136,13 +1150,17 @@ export function SiteHome() {
           </div>
           <div className="relative mx-auto max-w-[940px]">
             <div className="relative h-[520px] overflow-hidden rounded-[10px] shadow-eureka max-md:h-[300px]">
-              <Image src={currentGallery.image} alt={currentGallery.title} fill sizes="940px" className="object-cover" />
+              <SafeImage
+                src={currentGallery.cover_image || currentGallery.image}
+                alt={currentGallery.title}
+                className="h-full w-full object-cover"
+              />
               <span className="absolute bottom-4 left-4 bg-white/90 px-3 py-2 text-xs font-bold text-[#2e2c2c]">{currentGallery.title}</span>
             </div>
-            <button className="absolute left-[-21px] top-1/2 grid h-[42px] w-[42px] -translate-y-1/2 place-items-center rounded-full bg-[#ff7b3b] text-white max-md:left-2" type="button" aria-label="Previous gallery image" onClick={() => setGalleryIndex((index) => (index - 1 + galleryItems.length) % galleryItems.length)}>
+            <button className="absolute left-[-21px] top-1/2 grid h-[42px] w-[42px] -translate-y-1/2 place-items-center rounded-full bg-[#ff7b3b] text-white max-md:left-2" type="button" aria-label="Previous gallery image" onClick={() => setGalleryIndex((index) => (index - 1 + activeGalleryItems.length) % activeGalleryItems.length)}>
               <ChevronLeft size={18} />
             </button>
-            <button className="absolute right-[-21px] top-1/2 grid h-[42px] w-[42px] -translate-y-1/2 place-items-center rounded-full bg-[#ff7b3b] text-white max-md:right-2" type="button" aria-label="Next gallery image" onClick={() => setGalleryIndex((index) => (index + 1) % galleryItems.length)}>
+            <button className="absolute right-[-21px] top-1/2 grid h-[42px] w-[42px] -translate-y-1/2 place-items-center rounded-full bg-[#ff7b3b] text-white max-md:right-2" type="button" aria-label="Next gallery image" onClick={() => setGalleryIndex((index) => (index + 1) % activeGalleryItems.length)}>
               <ChevronRight size={18} />
             </button>
           </div>
@@ -1154,13 +1172,12 @@ export function SiteHome() {
         <div className={`${container} flex items-center justify-between gap-7 max-md:grid`}>
           <div>
             <span className="mb-4 inline-flex min-h-7 items-center rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase text-white">Admissions</span>
-            <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Prepare your child for a confident academic future</h2>
-            <p className="mt-4 max-w-[760px] text-white/90">
-              Admission is open for Montessori to Grade XII. Submit an inquiry and the school team
-              will guide you through forms, entrance, and interaction dates.
+            <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Admissions open for Academic Session 2083</h2>
+            <p className="mt-4 max-w-[760px] text-white/95 text-sm md:text-base">
+              Join the school that helps students pursue excellence. Submit your admissions inquiry online or contact our office for details.
             </p>
           </div>
-          <Link className={btnPrimary} href="/contact">Get Admission Info</Link>
+          <Link className={btnPrimary} href="/admission">Apply Now</Link>
         </div>
       </section>
 

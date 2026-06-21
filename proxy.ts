@@ -4,6 +4,12 @@ import { hasSupabaseEnv, supabaseAnonKey, supabaseUrl } from "@/lib/supabase/env
 
 export async function proxy(request: NextRequest) {
   if (!hasSupabaseEnv() || !supabaseUrl || !supabaseAnonKey) {
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.searchParams.set("error", "config");
+      return NextResponse.redirect(url);
+    }
     return NextResponse.next();
   }
 

@@ -80,3 +80,26 @@ export async function adminUpdateAboutPage(formData: FormData) {
   revalidatePath("/admin/pages");
   redirect("/admin/pages");
 }
+
+export async function adminUpdateLifeAtEurekaPage(formData: FormData) {
+  const sports = JSON.parse(String(formData.get("sports_json") || "[]"));
+  const clubs = JSON.parse(String(formData.get("clubs_json") || "[]"));
+  const gallery = JSON.parse(String(formData.get("gallery_json") || "[]"));
+  const videos = JSON.parse(String(formData.get("videos_json") || "[]"));
+
+  const updatedBody = {
+    sports,
+    clubs,
+    gallery,
+    videos
+  };
+
+  await updatePage("life-at-eureka", {
+    body: updatedBody
+  });
+
+  revalidatePath("/");
+  revalidatePath("/life-at-eureka");
+  revalidatePath("/admin/pages");
+  redirect("/admin/pages");
+}

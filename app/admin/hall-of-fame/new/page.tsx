@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { getAchievementById } from "@/lib/achievements-store";
-import { adminUpdateAchievement } from "../actions";
+import { adminCreateAchievement } from "../actions";
 import { ImageUploader } from "@/components/admin/image-uploader";
 
 const ChevronLeftIcon = ({ size = 16 }: { size?: number }) => (
@@ -53,34 +51,21 @@ const AlignLeftIcon = () => (
   </svg>
 );
 
-export const dynamic = "force-dynamic";
-
-type Props = {
-  params: Promise<{ id: string }>;
-};
-
-export default async function AdminEditAchievementPage({ params }: Props) {
-  const { id } = await params;
-  const item = await getAchievementById(id);
-
-  if (!item) notFound();
-
+export default function AdminNewHallOfFamePage() {
   return (
     <>
       <div className="admin-topbar mb-8">
         <Link
-          href="/admin/achievements"
+          href="/admin/hall-of-fame"
           className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-[#ff7b3b] transition mb-3"
         >
           <ChevronLeftIcon size={14} /> Back to List
         </Link>
-        <h1 className="text-3xl font-black text-[#10233f]">Edit Achievement</h1>
-        <p className="text-slate-500 text-sm mt-1">Modify the existing achievement details for {item.title}.</p>
+        <h1 className="text-3xl font-black text-[#10233f]">Add Hall of Fame Entry</h1>
+        <p className="text-slate-500 text-sm mt-1">Add a new student topper, successful alumni, or school success story.</p>
       </div>
 
-      <form action={adminUpdateAchievement} className="bg-white rounded-lg border border-slate-200 shadow-sm p-8 max-w-[800px]">
-        <input type="hidden" name="id" value={item.id} />
-
+      <form action={adminCreateAchievement} className="bg-white rounded-lg border border-slate-200 shadow-sm p-8 max-w-[800px]">
         <div className="grid gap-6">
           {/* Title */}
           <div>
@@ -90,7 +75,6 @@ export default async function AdminEditAchievementPage({ params }: Props) {
             <input
               type="text"
               name="title"
-              defaultValue={item.title}
               placeholder="e.g. Ms. Suva Ratna Rai"
               className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
               required
@@ -100,15 +84,13 @@ export default async function AdminEditAchievementPage({ params }: Props) {
           {/* Slug */}
           <div>
             <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">
-              Custom Slug <span className="text-slate-400 font-normal">(Required for page routing)</span>
+              Custom Slug <span className="text-slate-400 font-normal">(Optional - generated from name)</span>
             </label>
             <input
               type="text"
               name="slug"
-              defaultValue={item.slug}
               placeholder="e.g. suva-ratna-rai"
               className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
-              required
             />
           </div>
 
@@ -121,7 +103,6 @@ export default async function AdminEditAchievementPage({ params }: Props) {
               <input
                 type="text"
                 name="category"
-                defaultValue={item.category}
                 placeholder="e.g. Batch 2056"
                 className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
                 required
@@ -134,7 +115,6 @@ export default async function AdminEditAchievementPage({ params }: Props) {
               <input
                 type="text"
                 name="summary"
-                defaultValue={item.summary}
                 placeholder="e.g. Registered Nurse, UK"
                 className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
                 required
@@ -146,19 +126,18 @@ export default async function AdminEditAchievementPage({ params }: Props) {
           <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
             <div>
               <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2 flex items-center gap-1.5">
-                <CalendarIcon /> Date of Achievement
+                <CalendarIcon /> Date of Achievement <span className="text-slate-400 font-normal">(Optional)</span>
               </label>
               <input
                 type="date"
                 name="achievement_date"
-                defaultValue={item.achievement_date ? item.achievement_date.split("T")[0] : ""}
                 className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
               />
             </div>
             <div>
               <ImageUploader
                 name="cover_image"
-                defaultValue={item.cover_image}
+                defaultValue="/images/staffs.jpg"
                 label="Student Photo"
                 required={true}
               />
@@ -172,27 +151,40 @@ export default async function AdminEditAchievementPage({ params }: Props) {
             </label>
             <textarea
               name="body"
-              defaultValue={item.body}
               rows={6}
               placeholder="Enter details about their path, university education, current position, and comments on how Eureka shaped their future..."
               className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition resize-y"
             />
           </div>
 
-          {/* Status */}
-          <div>
-            <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">
-              Publish Status
-            </label>
-            <select
-              name="status"
-              className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
-              defaultValue={item.status}
-            >
-              <option value="draft">Draft (Visible in admin only)</option>
-              <option value="published">Published (Visible on public site)</option>
-              <option value="archived">Archived (Hidden from public wall)</option>
-            </select>
+          {/* Status and Sort Order */}
+          <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+            <div>
+              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">
+                Publish Status
+              </label>
+              <select
+                name="status"
+                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
+                defaultValue="draft"
+              >
+                <option value="draft">Draft (Visible in admin only)</option>
+                <option value="published">Published (Visible on public site)</option>
+                <option value="archived">Archived (Hidden from public wall)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">
+                Sort Order (Numeric)
+              </label>
+              <input
+                type="number"
+                name="sort_order"
+                defaultValue={0}
+                placeholder="e.g. 1"
+                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2.5 text-slate-800 outline-none focus:ring-2 focus:ring-[#3eaea6] focus:bg-white transition"
+              />
+            </div>
           </div>
 
           {/* Buttons */}
@@ -201,10 +193,10 @@ export default async function AdminEditAchievementPage({ params }: Props) {
               type="submit"
               className="inline-flex min-h-[42px] items-center gap-2 rounded bg-[#ff7b3b] px-6 py-2.5 text-xs font-black uppercase tracking-wider text-white hover:bg-[#3eaea6] transition"
             >
-              <SaveIcon /> Save Changes
+              <SaveIcon /> Save Entry
             </button>
             <Link
-              href="/admin/achievements"
+              href="/admin/hall-of-fame"
               className="inline-flex min-h-[42px] items-center justify-center rounded border border-slate-200 bg-slate-50 px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-700 hover:bg-slate-100 transition"
             >
               Cancel

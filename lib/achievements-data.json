@@ -8,7 +8,8 @@
     "body": "Suva Ratna Rai was the top performer of the 2056 B.S. SLC batch. She successfully completed her nursing studies and is currently working as a Registered Nurse in the United Kingdom, representing Eureka Residential Secondary School on a global stage.",
     "cover_image": "/images/Suva ratna.jpeg",
     "achievement_date": "1999-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 1
   },
   {
     "id": "achievement-2",
@@ -19,7 +20,8 @@
     "body": "Roshan Atal topped the 2058 B.S. batch at Eureka. He pursued his medical career specializing in Orthopedic surgery and currently serves as a Consultant Orthopedic Surgeon at Kankai Hospital.",
     "cover_image": "/images/Roshan atal.png",
     "achievement_date": "2001-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 2
   },
   {
     "id": "achievement-3",
@@ -30,7 +32,8 @@
     "body": "Narendra Shrestha achieved academic excellence in the 2059 B.S. batch. He obtained his PhD in Physics in the United States and works as a Senior Semiconductor Engineer in Silicon Valley, USA.",
     "cover_image": "/images/Narendra Shrestha SLC 2059- 74.3%.jpg",
     "achievement_date": "2002-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 3
   },
   {
     "id": "achievement-4",
@@ -41,7 +44,8 @@
     "body": "Ganesh Agrawal was the topper of the 2060 B.S. SLC batch. He completed his specialization in Ophthalmology and is currently a practicing Ophthalmologist at Manjushree Eye Care, helping improve eye health in the region.",
     "cover_image": "/images/ganesh agrawal.jpeg",
     "achievement_date": "2003-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 4
   },
   {
     "id": "achievement-5",
@@ -52,7 +56,8 @@
     "body": "Benju Shrestha topped the 2063 B.S. SLC batch at Eureka. She went on to achieve her Master of Dental Surgery (MDS) and currently serves as a Dental Surgeon at Udayapur Hospital.",
     "cover_image": "/images/Dr . Benju Shrestha.jpg",
     "achievement_date": "2006-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 5
   },
   {
     "id": "achievement-6",
@@ -63,7 +68,8 @@
     "body": "Ashish Shrestha, the 2064 B.S. batch topper, joined the public civil services of Nepal. He currently serves as an Under Secretary at the Ministry of Energy, Water Resources, and Irrigation.",
     "cover_image": "/images/aashish shrestha.jpeg",
     "achievement_date": "2007-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 6
   },
   {
     "id": "achievement-7",
@@ -74,7 +80,8 @@
     "body": "Yugesh Chandra Rai topped the 2069 B.S. batch at Eureka. He completed his computing education and moved to Canada, where he works as a Software Engineer at a leading technology firm.",
     "cover_image": "/images/Yugesh Rai.jpg",
     "achievement_date": "2012-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 7
   },
   {
     "id": "achievement-8",
@@ -85,7 +92,8 @@
     "body": "Safina Shrestha was the topper of the 2073 B.S. batch. She pursued higher studies in BBA and Industrial & Systems Engineering in the United States and works as a Systems Engineer.",
     "cover_image": "/images/safina shrestha.jpeg",
     "achievement_date": "2016-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 8
   },
   {
     "id": "achievement-9",
@@ -96,7 +104,8 @@
     "body": "Munal Kafle achieved outstanding marks in the 2078 B.S. batch at Eureka. He is currently pursuing his MBBS degree on a prestigious medical scholarship in Nepal.",
     "cover_image": "/images/Munal Kafle, SEE 2078 topper -3.75.jpg",
     "achievement_date": "2021-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 9
   },
   {
     "id": "achievement-10",
@@ -107,6 +116,7 @@
     "body": "Alzens Rai was the topper of the 2081 B.S. SEE batch. He continues his academic journey in the +2 Science stream at Eureka Residential Secondary School, maintaining his excellent performance.",
     "cover_image": "/images/Alzens Rai, SEE 2081 topper 3.84.jpg",
     "achievement_date": "2024-06-01",
-    "status": "published"
+    "status": "published",
+    "sort_order": 10
   }
 ]

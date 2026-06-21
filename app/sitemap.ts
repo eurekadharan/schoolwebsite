@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/gallery",
     "/results",
     "/events",
-    "/achievements",
+    "/hall-of-fame",
     "/life-at-eureka",
     "/blogs",
     "/notices",

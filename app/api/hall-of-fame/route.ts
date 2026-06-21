@@ -8,7 +8,7 @@ export async function GET() {
     const achievements = await getAchievements(false);
     return NextResponse.json(achievements);
   } catch (err: any) {
-    console.error("API Achievements Error:", err);
-    return NextResponse.json({ error: "Failed to fetch achievements" }, { status: 500 });
+    console.error("API Hall of Fame Error:", err);
+    return NextResponse.json({ error: "Failed to fetch hall of fame entries" }, { status: 500 });
   }
 }
