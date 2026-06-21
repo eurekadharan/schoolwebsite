@@ -316,7 +316,7 @@ export default async function AboutPage() {
       {/* Admission call */}
       <section className="bg-[#10233f] py-14 text-white text-center">
         <div className={container}>
-          <h2 className="text-3xl font-bold mb-4">Admissions open for Academic Session 2083</h2>
+          <h2 className="text-3xl font-bold mb-4">Admissions open for Academic Session</h2>
           <p className="text-sm text-slate-300 max-w-[620px] mx-auto mb-6">
             Join the school that helps students pursue excellence. Submit your admissions inquiry online or contact our office for details.
           </p>

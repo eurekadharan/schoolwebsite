@@ -1172,7 +1172,7 @@ export function SiteHome() {
         <div className={`${container} flex items-center justify-between gap-7 max-md:grid`}>
           <div>
             <span className="mb-4 inline-flex min-h-7 items-center rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase text-white">Admissions</span>
-            <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Admissions open for Academic Session 2083</h2>
+            <h2 className="text-balance text-[clamp(28px,3.2vw,42px)] font-bold leading-tight text-white">Admissions open for Academic Session</h2>
             <p className="mt-4 max-w-[760px] text-white/95 text-sm md:text-base">
               Join the school that helps students pursue excellence. Submit your admissions inquiry online or contact our office for details.
             </p>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BookOpen,
@@ -13,7 +14,7 @@ import {
   ShieldCheck,
   Trophy
 } from "lucide-react";
-import { adminFormModules, adminModules } from "@/lib/site-data";
+import { getAdminDashboardCountsAction } from "@/app/admin/pages/actions";
 
 const adminIcons = {
   image: ImageIcon,
@@ -29,6 +30,48 @@ const adminIcons = {
 };
 
 export default function AdminDashboardPage() {
+  const [counts, setCounts] = useState({
+    admissions: 0,
+    contacts: 0,
+    inquiries: 0,
+    banners: 0,
+    pages: 0,
+    blogs: 0,
+    notices: 0,
+    events: 0,
+    achievements: 0,
+    gallery: 0,
+    media: 0
+  });
+
+  useEffect(() => {
+    getAdminDashboardCountsAction()
+      .then((data) => {
+        setCounts(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load counts:", err);
+      });
+  }, []);
+
+  // Define modules using actual counts
+  const formModules = [
+    { label: "Admissions", href: "/admin/forms/admissions", icon: "graduation", count: counts.admissions },
+    { label: "Contacts", href: "/admin/forms/contacts", icon: "phone", count: counts.contacts },
+    { label: "Inquiries", href: "/admin/forms/inquiries", icon: "heart", count: counts.inquiries }
+  ];
+
+  const contentModules = [
+    { label: "Banners", href: "/admin/banners", icon: "image", count: counts.banners },
+    { label: "Pages", href: "/admin/pages", icon: "file", count: counts.pages },
+    { label: "Blogs", href: "/admin/blogs", icon: "newspaper", count: counts.blogs },
+    { label: "Notices", href: "/admin/notices", icon: "shield", count: counts.notices },
+    { label: "Events", href: "/admin/events", icon: "calendar", count: counts.events },
+    { label: "Hall of Fame", href: "/admin/hall-of-fame", icon: "trophy", count: counts.achievements },
+    { label: "Gallery", href: "/admin/gallery", icon: "image", count: counts.gallery },
+    { label: "Media", href: "/admin/media", icon: "image", count: counts.media }
+  ];
+
   return (
     <>
       <div className="admin-topbar">
@@ -43,7 +86,7 @@ export default function AdminDashboardPage() {
       </div>
 
       <section className="admin-grid">
-        {adminFormModules.map((module) => {
+        {formModules.map((module) => {
           const Icon = adminIcons[module.icon as keyof typeof adminIcons];
           return (
             <Link className="admin-card" href={module.href} key={module.label}>
@@ -57,7 +100,7 @@ export default function AdminDashboardPage() {
       </section>
 
       <section className="admin-grid" style={{ marginTop: 18 }}>
-        {adminModules.slice(0, 6).map((module) => {
+        {contentModules.slice(0, 7).map((module) => {
           const Icon = adminIcons[module.icon as keyof typeof adminIcons];
           return (
             <Link className="admin-card" href={module.href} key={module.label}>
