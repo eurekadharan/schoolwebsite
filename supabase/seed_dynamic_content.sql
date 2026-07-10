@@ -176,29 +176,101 @@ VALUES (
     },
     "coordinators": [
       {
+        "name": "Mr. Chandra Deep Lama",
+        "role": "Director",
+        "qualification": "Director",
+        "image_url": "",
+        "level_label": "Director",
+        "message_paragraphs": []
+      },
+      {
+        "name": "Mr. Kuran Chemjong",
+        "role": "Principal",
+        "qualification": "Principal, B.Sc. (Physics, TU) | M.Ed. (ELT, KU)",
+        "image_url": "/images/principal.jpg",
+        "level_label": "Principal''s Desk",
+        "message_paragraphs": [
+          "Dear Parents, Students, and Well-Wishers,\nWarm greetings!",
+          "It is with great pride and joy that I welcome you to our dynamic learning community.",
+          "At our school, we believe that education is a journey of growth, creativity, and personal construct. Along with strong academic foundations, we focus on developing confidence, discipline, and instilling values. Our signature pedagogy (PBL method), developed considering the present students, emphasizes activity-based learning, critical thinking, and real-life application, making education meaningful and engaging for every child. The formative assessment plan has been practiced for immediate and needful actions.",
+          "We follow school''s rules and conduct meticulously which have helped us create a campus that is not only safe and secure but also friendly, respectful, and fun for all students. We believe that a well-disciplined environment nurtures responsibility, mutual respect, and a love for learning.",
+          "To provide the best learning environment, we have significantly enhanced our infrastructure. Our campus now features well-equipped computer labs, science laboratories, and dedicated ICT hall, and two spacious seminar halls to promote interactive, technology-driven learning. We have also introduced an improved canteen, garden area for refreshment along with enhanced sanitation facilities to maintain the highest standards of hygiene. A new modern building is set to enhance our proposed final facility, aimed at promoting the highest concentration, work standard comfort, and efficient learning.",
+          "We are supported by a team of well-trained and dedicated teachers, who work tirelessly to create an engaging classroom experience that respects and understands every child''s unique potential. We also work in close partnership with parents, recognizing that their support is essential in shaping a child''s success.",
+          "We are deeply grateful for the trust our parents have placed in us and remain committed to offering a secure, enriching, and inspiring educational experience for our students. As we move forward, we remain dedicated to providing an environment where every child can grow academically, emotionally, and socially, and become a confident, compassionate, and responsible individual.",
+          "We look forward to another year filled with new learning, new achievements, and continued collaboration.",
+          "Thank you for your ongoing support and partnership in your child''s success."
+        ]
+      },
+      {
+        "name": "Mr. Sudip Yalmo Tamang",
+        "role": "Academic Director",
+        "qualification": "Academic Director",
+        "image_url": "",
+        "level_label": "Academic Director",
+        "message_paragraphs": []
+      },
+      {
+        "name": "Mr. Rajat Sampang",
+        "role": "+2 Coordinator",
+        "qualification": "+2 Level Coordinator",
+        "image_url": "",
+        "level_label": "Plus Two Coordinator",
+        "message_paragraphs": []
+      },
+      {
         "name": "Mr. Bijay Kumar Shrestha",
-        "role": "Secondary Level Coordinator",
+        "role": "Coordinator 9-10",
         "qualification": "Secondary Coordinator | M.Sc. (Biology)",
         "image_url": "/images/bijay kumar shrestha.png",
-        "level_label": "Secondary Level (Grade 9 - 12)",
+        "level_label": "Secondary Level (Grade 9 - 10)",
         "message_paragraphs": [
-          "Secondary level study at Eureka serves as the critical bridge for students transitioning into higher education and technical board exams. We actively update our curriculum to match modern standards, introducing coding and advanced computing modules for secondary students. Our students enjoy extensive practical periods inside our chemistry, biology, and physics laboratories to ground theoretical concepts in empirical observation.",
-          "Through our continuous weekly test assessments, mock board evaluations, and focused counseling sessions, we guide secondary performers to achieve their maximum potential. We cooperate closely with educators to implement interactive seminars, project assignments, and co-curricular programs that mold students into competent academic aspirants."
+          "The school is pleased to announce several new academic and co-curricular initiatives for Grades 9 and 10 in the upcoming academic session.",
+          "Computer Science will be introduced for Grade 9 students. Along with this, practical-based Science classes will be conducted for both Grades 9 and 10 to strengthen hands-on learning and conceptual understanding. Emphasis will also be laid on project work, life use, research skills, and presentations.",
+          "The school will organize simple experiments, one act drama, inter house quiz, debates and exhibitions in addition to access to facilities such as Science Lab, Computer Lab, Digital Classroom, Math Lab, Digital Library, and General Library.",
+          "For overall development, regular games, yoga, meditation, and physical training will be introduced. Sessions on stress management and moral values will be conducted to support students'' mental well-being.",
+          "To improve communication and leadership skills, public speaking programs, student council and club activities will be conducted. Students will also engage in individual and group projects designed to promote independent and collaborative skills.",
+          "Academically, extra support classes for weak students and challenge sessions for advanced learners will be arranged. A system of weekly tests and monthly assignments will be introduced to ensure continuous learning. Parent class and past paper discussions will be implemented to build strong exam habits and exam rigor. This will also nurture professionalism among parents to inspire their kids for reaching further career opportunities.",
+          "We look forward to the active participation and cooperation."
         ]
       },
       {
         "name": "Mr. Bhuwan Sanjel",
-        "role": "Basic Level Coordinator",
+        "role": "Coordinator 6-8",
         "qualification": "Basic Level Coordinator | BA Sociology / MA English",
         "image_url": "/images/bhuwan sanjel.jpeg",
-        "level_label": "Basic Level (Montessori - Grade 8)",
+        "level_label": "Basic Level (Grade 6 - 8)",
         "message_paragraphs": [
-          "The basic level sets the bedrock of academic confidence, moral values, and socialization habits. At Eureka, we utilize a child-centric Montessori methodology in our pre-school wings to emphasize positive discipline and motor coordination. As students progress into basic levels, we introduce digital classrooms, interactive smart board halls, and logic puzzles inside our math laboratory to build conceptual clarity.",
-          "We coordinate character development workshops, public speaking contests, and sports activities alongside co-curricular programs to support a well-rounded learning graph. We prioritize regular teacher training and parental interaction, creating a collaborative circle that guides every basic level child to grow in a safe, respect-driven environment."
+          "Eureka R. S. School always offers an opportunity to explore, learn and implement knowledge and skill differently.",
+          "The young minds have shaped and sharpened with a fundamental understanding of culture, skills upliftment and intermediate knowledge of education where teaching technique is totally student oriented. We observe different mind and their level of knowledge and then evaluate them, such activities encourage the students to understand things clearly from surface level to advanced level. The students are made busy in different clubs, field visits and various other co/extracurricular activities in order to develop the multiple aspects of the society. The blend of both internal and external activities helps them to achieve their real goal.",
+          "In each academic year, we have digitally made calendars and programmes for new session that definitely drive students in a right track. That''s why we are Eureka is the best platform for your golden future."
         ]
+      },
+      {
+        "name": "Mr. K. B. Rai",
+        "role": "Coordinator 1-5",
+        "qualification": "Primary Level Coordinator",
+        "image_url": "/images/KB Rai.jpg",
+        "level_label": "Primary Level (Grade 1 - 5)",
+        "message_paragraphs": []
+      },
+      {
+        "name": "Mrs. Anu Shakya",
+        "role": "Incharge 1-2",
+        "qualification": "Primary Level Incharge",
+        "image_url": "/images/Anu Shakya.jpg",
+        "level_label": "Primary Incharge (Grade 1 - 2)",
+        "message_paragraphs": []
+      },
+      {
+        "name": "Mrs. Indu Rai",
+        "role": "Montessori Coordinator",
+        "qualification": "Montessori Coordinator",
+        "image_url": "/images/Indu Rai.jpg",
+        "level_label": "Montessori Wing",
+        "message_paragraphs": []
       }
     ]
-  }'::jsonb,
+  }''::jsonb,
   'published',
   now()
 )

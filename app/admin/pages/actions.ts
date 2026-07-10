@@ -32,7 +32,7 @@ export async function adminUpdateAboutPage(formData: FormData) {
   const principal_p3 = String(formData.get("principal_p3") || "").trim();
   const principal_message_paragraphs = [principal_p1, principal_p2, principal_p3].filter(Boolean);
 
-  // Secondary Coordinator
+  // Secondary Coordinator (Coordinator 9-10)
   const coord_sec_name = String(formData.get("coord_sec_name") || "").trim();
   const coord_sec_qualification = String(formData.get("coord_sec_qualification") || "").trim();
   const coord_sec_image = String(formData.get("coord_sec_image") || "").trim();
@@ -40,13 +40,38 @@ export async function adminUpdateAboutPage(formData: FormData) {
   const coord_sec_p2 = String(formData.get("coord_sec_p2") || "").trim();
   const coord_sec_message_paragraphs = [coord_sec_p1, coord_sec_p2].filter(Boolean);
 
-  // Basic Coordinator
+  // Basic Coordinator (Coordinator 6-8)
   const coord_bas_name = String(formData.get("coord_bas_name") || "").trim();
   const coord_bas_qualification = String(formData.get("coord_bas_qualification") || "").trim();
   const coord_bas_image = String(formData.get("coord_bas_image") || "").trim();
   const coord_bas_p1 = String(formData.get("coord_bas_p1") || "").trim();
   const coord_bas_p2 = String(formData.get("coord_bas_p2") || "").trim();
   const coord_bas_message_paragraphs = [coord_bas_p1, coord_bas_p2].filter(Boolean);
+
+  // New Key Personnel Fields
+  const director_name = String(formData.get("director_name") || "").trim();
+  const director_qualification = String(formData.get("director_qualification") || "").trim();
+  const director_image = String(formData.get("director_image") || "").trim();
+
+  const academic_director_name = String(formData.get("academic_director_name") || "").trim();
+  const academic_director_qualification = String(formData.get("academic_director_qualification") || "").trim();
+  const academic_director_image = String(formData.get("academic_director_image") || "").trim();
+
+  const coord_1_5_name = String(formData.get("coord_1_5_name") || "").trim();
+  const coord_1_5_qualification = String(formData.get("coord_1_5_qualification") || "").trim();
+  const coord_1_5_image = String(formData.get("coord_1_5_image") || "").trim();
+
+  const incharge_1_2_name = String(formData.get("incharge_1_2_name") || "").trim();
+  const incharge_1_2_qualification = String(formData.get("incharge_1_2_qualification") || "").trim();
+  const incharge_1_2_image = String(formData.get("incharge_1_2_image") || "").trim();
+
+  const montessori_name = String(formData.get("montessori_name") || "").trim();
+  const montessori_qualification = String(formData.get("montessori_qualification") || "").trim();
+  const montessori_image = String(formData.get("montessori_image") || "").trim();
+
+  const plus_two_name = String(formData.get("plus_two_name") || "").trim();
+  const plus_two_qualification = String(formData.get("plus_two_qualification") || "").trim();
+  const plus_two_image = String(formData.get("plus_two_image") || "").trim();
 
   const updatedBody = {
     vision,
@@ -61,20 +86,76 @@ export async function adminUpdateAboutPage(formData: FormData) {
     },
     coordinators: [
       {
+        name: director_name,
+        role: "Director",
+        qualification: director_qualification,
+        image_url: director_image,
+        level_label: "Director",
+        message_paragraphs: []
+      },
+      {
+        name: principal_name,
+        role: "Principal",
+        qualification: principal_qualification,
+        image_url: principal_image || "/images/principal.jpg",
+        level_label: "Principal's Desk",
+        message_paragraphs: principal_message_paragraphs
+      },
+      {
+        name: academic_director_name,
+        role: "Academic Director",
+        qualification: academic_director_qualification,
+        image_url: academic_director_image,
+        level_label: "Academic Director",
+        message_paragraphs: []
+      },
+      {
+        name: plus_two_name,
+        role: "+2 Coordinator",
+        qualification: plus_two_qualification,
+        image_url: plus_two_image,
+        level_label: "Plus Two Coordinator",
+        message_paragraphs: []
+      },
+      {
         name: coord_sec_name,
-        role: "Secondary Level Coordinator",
+        role: "Coordinator 9-10",
         qualification: coord_sec_qualification,
         image_url: coord_sec_image || "/images/bijay kumar shrestha.png",
-        level_label: "Secondary Level (Grade 9 - 12)",
+        level_label: "Secondary Level (Grade 9 - 10)",
         message_paragraphs: coord_sec_message_paragraphs
       },
       {
         name: coord_bas_name,
-        role: "Basic Level Coordinator",
+        role: "Coordinator 6-8",
         qualification: coord_bas_qualification,
         image_url: coord_bas_image || "/images/bhuwan sanjel.jpeg",
-        level_label: "Basic Level (Montessori - Grade 8)",
+        level_label: "Basic Level (Grade 6 - 8)",
         message_paragraphs: coord_bas_message_paragraphs
+      },
+      {
+        name: coord_1_5_name,
+        role: "Coordinator 1-5",
+        qualification: coord_1_5_qualification,
+        image_url: coord_1_5_image || "/images/KB Rai.jpg",
+        level_label: "Primary Level (Grade 1 - 5)",
+        message_paragraphs: []
+      },
+      {
+        name: incharge_1_2_name,
+        role: "Incharge 1-2",
+        qualification: incharge_1_2_qualification,
+        image_url: incharge_1_2_image || "/images/Anu Shakya.jpg",
+        level_label: "Primary Incharge (Grade 1 - 2)",
+        message_paragraphs: []
+      },
+      {
+        name: montessori_name,
+        role: "Montessori Coordinator",
+        qualification: montessori_qualification,
+        image_url: montessori_image || "/images/Indu Rai.jpg",
+        level_label: "Montessori Wing",
+        message_paragraphs: []
       }
     ]
   };
