@@ -25,6 +25,78 @@ interface Props {
 
 export const revalidate = 0;
 
+function renderPersonnelSection(
+  titleNumber: number,
+  sectionTitle: string,
+  prefix: string,
+  data: any,
+  defaultName: string,
+  defaultQual: string,
+  defaultImg: string,
+  hasMessage: boolean = false,
+  pNames: string[] = []
+) {
+  return (
+    <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-8" key={prefix}>
+      <h2 className="text-lg font-bold text-[#10233f] mb-6 pb-2 border-b">{titleNumber}. {sectionTitle}</h2>
+      <div className="grid gap-6">
+        <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
+          <div>
+            <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Name</label>
+            <input 
+              type="text" 
+              name={`${prefix}_name`} 
+              defaultValue={data.name || defaultName} 
+              className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" 
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Qualification / Short Subtitle</label>
+            <input 
+              type="text" 
+              name={`${prefix}_qualification`} 
+              defaultValue={data.qualification || defaultQual} 
+              className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" 
+            />
+          </div>
+        </div>
+
+        <div>
+          <ImageUploader 
+            name={`${prefix}_image`} 
+            defaultValue={data.image_url || defaultImg} 
+            label="Photo" 
+          />
+        </div>
+
+        {hasMessage && pNames.length > 0 && (
+          <div className="grid gap-4 border-t border-slate-100 pt-4">
+            <h4 className="text-xs font-bold text-[#10233f] uppercase tracking-wider">Message Paragraphs</h4>
+            <div>
+              <label className="block text-xs font-black uppercase text-slate-400 tracking-wide mb-2">Paragraph 1</label>
+              <textarea 
+                name={pNames[0]} 
+                rows={3} 
+                defaultValue={data.message_paragraphs?.[0] || ""} 
+                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" 
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-black uppercase text-slate-400 tracking-wide mb-2">Paragraph 2</label>
+              <textarea 
+                name={pNames[1]} 
+                rows={3} 
+                defaultValue={data.message_paragraphs?.[1] || ""} 
+                className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" 
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default async function AdminEditPageBlocks({ params }: Props) {
   const { slug } = await params;
   const page = await getPageBySlug(slug);
@@ -71,8 +143,19 @@ export default async function AdminEditPageBlocks({ params }: Props) {
   const history = body.history_paragraphs || [];
   const principal = body.principal || {};
   const coordinators = body.coordinators || [];
-  const coordSec = coordinators[0] || {};
-  const coordBas = coordinators[1] || {};
+
+  const getCoordData = (roleLabel: string, alternateLabel?: string) => {
+    return coordinators.find((c: any) => c.role === roleLabel || (alternateLabel && c.role === alternateLabel)) || {};
+  };
+
+  const directorData = getCoordData("Director");
+  const academicDirectorData = getCoordData("Academic Director");
+  const plusTwoData = getCoordData("+2 Coordinator");
+  const coord910Data = getCoordData("Coordinator 9-10", "Secondary Level Coordinator");
+  const coord68Data = getCoordData("Coordinator 6-8", "Basic Level Coordinator");
+  const coord15Data = getCoordData("Coordinator 1-5");
+  const incharge12Data = getCoordData("Incharge 1-2");
+  const montessoriData = getCoordData("Montessori Coordinator");
 
   return (
     <>
@@ -160,65 +243,15 @@ export default async function AdminEditPageBlocks({ params }: Props) {
           </div>
         </div>
 
-        {/* Secondary Coordinator */}
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-8">
-          <h2 className="text-lg font-bold text-[#10233f] mb-6 pb-2 border-b">4. Secondary Level Coordinator (Grade 9 - 12)</h2>
-          <div className="grid gap-6">
-            <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-              <div>
-                <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Coordinator Name</label>
-                <input type="text" name="coord_sec_name" defaultValue={coordSec.name || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" />
-              </div>
-              <div>
-                <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Qualification</label>
-                <input type="text" name="coord_sec_qualification" defaultValue={coordSec.qualification || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" />
-              </div>
-            </div>
-
-            <div>
-              <ImageUploader name="coord_sec_image" defaultValue={coordSec.image_url || "/images/bijay kumar shrestha.png"} label="Coordinator Photo" />
-            </div>
-
-            <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Message Paragraph 1</label>
-              <textarea name="coord_sec_p1" rows={3} defaultValue={coordSec.message_paragraphs?.[0] || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" />
-            </div>
-            <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Message Paragraph 2</label>
-              <textarea name="coord_sec_p2" rows={3} defaultValue={coordSec.message_paragraphs?.[1] || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" />
-            </div>
-          </div>
-        </div>
-
-        {/* Basic Coordinator */}
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-8">
-          <h2 className="text-lg font-bold text-[#10233f] mb-6 pb-2 border-b">5. Basic Level Coordinator (Montessori - Grade 8)</h2>
-          <div className="grid gap-6">
-            <div className="grid grid-cols-2 gap-4 max-sm:grid-cols-1">
-              <div>
-                <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Coordinator Name</label>
-                <input type="text" name="coord_bas_name" defaultValue={coordBas.name || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" />
-              </div>
-              <div>
-                <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Qualification</label>
-                <input type="text" name="coord_bas_qualification" defaultValue={coordBas.qualification || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition" />
-              </div>
-            </div>
-
-            <div>
-              <ImageUploader name="coord_bas_image" defaultValue={coordBas.image_url || "/images/bhuwan sanjel.jpeg"} label="Coordinator Photo" />
-            </div>
-
-            <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Message Paragraph 1</label>
-              <textarea name="coord_bas_p1" rows={3} defaultValue={coordBas.message_paragraphs?.[0] || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" />
-            </div>
-            <div>
-              <label className="block text-xs font-black uppercase text-[#10233f] tracking-wide mb-2">Message Paragraph 2</label>
-              <textarea name="coord_bas_p2" rows={3} defaultValue={coordBas.message_paragraphs?.[1] || ""} className="w-full bg-[#f8fafa] border border-slate-200 rounded px-4 py-2 text-sm text-slate-800 outline-none focus:ring-1 focus:ring-[#3eaea6] focus:bg-white transition resize-y" />
-            </div>
-          </div>
-        </div>
+        {/* Leadership & Coordinators Directory */}
+        {renderPersonnelSection(4, "Director", "director", directorData, "Mr. Chandra Deep Lama", "Director", "")}
+        {renderPersonnelSection(5, "Academic Director", "academic_director", academicDirectorData, "Mr. Sudip Yalmo Tamang", "Academic Director", "")}
+        {renderPersonnelSection(6, "Plus Two Coordinator", "plus_two", plusTwoData, "Mr. Rajat Sampang", "+2 Level Coordinator", "")}
+        {renderPersonnelSection(7, "Coordinator 9-10 (Secondary Level)", "coord_sec", coord910Data, "Mr. Bijay Kumar Shrestha", "Secondary Coordinator | M.Sc. (Biology)", "/images/bijay kumar shrestha.png", true, ["coord_sec_p1", "coord_sec_p2"])}
+        {renderPersonnelSection(8, "Coordinator 6-8 (Basic Level)", "coord_bas", coord68Data, "Mr. Bhuwan Sanjel", "Basic Level Coordinator | BA Sociology / MA English", "/images/bhuwan sanjel.jpeg", true, ["coord_bas_p1", "coord_bas_p2"])}
+        {renderPersonnelSection(9, "Coordinator 1-5 (Primary Level)", "coord_1_5", coord15Data, "Mr. K. B. Rai", "Primary Level Coordinator", "/images/KB Rai.jpg")}
+        {renderPersonnelSection(10, "Incharge 1-2", "incharge_1_2", incharge12Data, "Mrs. Anu Shakya", "Primary Level Incharge", "/images/Anu Shakya.jpg")}
+        {renderPersonnelSection(11, "Montessori Coordinator", "montessori", montessoriData, "Mrs. Indu Rai", "Montessori Coordinator", "/images/Indu Rai.jpg")}
 
         {/* Buttons */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 flex gap-3">

@@ -58,26 +58,87 @@ const DEFAULT_ABOUT_DATA = {
   },
   coordinators: [
     {
+      name: "Mr. Chandra Deep Lama",
+      role: "Director",
+      qualification: "Director",
+      image_url: "",
+      level_label: "Director",
+      message_paragraphs: []
+    },
+    {
+      name: "Mr. Kuran Chemjong",
+      role: "Principal",
+      qualification: "Principal, B.Sc. (Physics, TU) | M.Ed. (ELT, KU)",
+      image_url: "/images/principal.jpg",
+      level_label: "Principal's Desk",
+      message_paragraphs: [
+        "Education at Eureka is viewed as a journey of growth, creativity, and personal construction, grounded in strong academic foundations and supported by confidence, discipline, and moral values.",
+        "Our school’s signature Project-Based Learning (PBL) methodology emphasizes activity-based learning, critical thinking, and real-life application. We want to ensure that education remains meaningful and engaging for every child, rather than being confined to textbook memorization. A disciplined environment, guided by clearly defined rules and conduct, creates a campus that is safe, secure, friendly, respectful, and highly enjoyable.",
+        "To support this mission, our recent infrastructure enhancements include two modern computer labs, high-quality physics, chemistry, and biology laboratories, a dedicated ICT smart hall, and two spacious seminar halls. Combined with transport fleets, hygiene canteen facilities, and boarding hostels, we provide a complete ecosystem for student success.",
+        "We are extremely proud of our dedicated teaching team and appreciate the vital support of our parents in building a strong foundation for each student's success."
+      ]
+    },
+    {
+      name: "Mr. Sudip Yalmo Tamang",
+      role: "Academic Director",
+      qualification: "Academic Director",
+      image_url: "",
+      level_label: "Academic Director",
+      message_paragraphs: []
+    },
+    {
+      name: "Mr. Rajat Sampang",
+      role: "+2 Coordinator",
+      qualification: "+2 Level Coordinator",
+      image_url: "",
+      level_label: "Plus Two Coordinator",
+      message_paragraphs: []
+    },
+    {
       name: "Mr. Bijay Kumar Shrestha",
-      role: "Secondary Level Coordinator",
+      role: "Coordinator 9-10",
       qualification: "Secondary Coordinator | M.Sc. (Biology)",
+      image_url: "/images/bijay kumar shrestha.png",
+      level_label: "Secondary Level (Grade 9 - 10)",
       message_paragraphs: [
         "Secondary level study at Eureka serves as the critical bridge for students transitioning into higher education and technical board exams. We actively update our curriculum to match modern standards, introducing coding and advanced computing modules for secondary students. Our students enjoy extensive practical periods inside our chemistry, biology, and physics laboratories to ground theoretical concepts in empirical observation.",
         "Through our continuous weekly test assessments, mock board evaluations, and focused counseling sessions, we guide secondary performers to achieve their maximum potential. We cooperate closely with educators to implement interactive seminars, project assignments, and co-curricular programs that mold students into competent academic aspirants."
-      ],
-      image_url: "/images/bijay kumar shrestha.png",
-      level_label: "Secondary Level (Grade 9 - 12)"
+      ]
     },
     {
       name: "Mr. Bhuwan Sanjel",
-      role: "Basic Level Coordinator",
+      role: "Coordinator 6-8",
       qualification: "Basic Level Coordinator | BA Sociology / MA English",
+      image_url: "/images/bhuwan sanjel.jpeg",
+      level_label: "Basic Level (Grade 6 - 8)",
       message_paragraphs: [
         "The basic level sets the bedrock of academic confidence, moral values, and socialization habits. At Eureka, we utilize a child-centric Montessori methodology in our pre-school wings to emphasize positive discipline and motor coordination. As students progress into basic levels, we introduce digital classrooms, interactive smart board halls, and logic puzzles inside our math laboratory to build conceptual clarity.",
-        "We coordinate character development workshops, public speaking contests, and sports activities alongside core studies to support a well-rounded learning graph. We prioritize regular teacher training and parental interaction, creating a collaborative circle that guides every basic level child to grow in a safe, respect-driven environment."
-      ],
-      image_url: "/images/bhuwan sanjel.jpeg",
-      level_label: "Basic Level (Montessori - Grade 8)"
+        "We coordinate character development workshops, public speaking contests, and sports activities alongside co-curricular programs to support a well-rounded learning graph. We prioritize regular teacher training and parental interaction, creating a collaborative circle that guides every basic level child to grow in a safe, respect-driven environment."
+      ]
+    },
+    {
+      name: "Mr. K. B. Rai",
+      role: "Coordinator 1-5",
+      qualification: "Primary Level Coordinator",
+      image_url: "/images/KB Rai.jpg",
+      level_label: "Primary Level (Grade 1 - 5)",
+      message_paragraphs: []
+    },
+    {
+      name: "Mrs. Anu Shakya",
+      role: "Incharge 1-2",
+      qualification: "Primary Level Incharge",
+      image_url: "/images/Anu Shakya.jpg",
+      level_label: "Primary Incharge (Grade 1 - 2)",
+      message_paragraphs: []
+    },
+    {
+      name: "Mrs. Indu Rai",
+      role: "Montessori Coordinator",
+      qualification: "Montessori Coordinator",
+      image_url: "/images/Indu Rai.jpg",
+      level_label: "Montessori Wing",
+      message_paragraphs: []
     }
   ]
 };
@@ -116,8 +177,63 @@ async function getAboutPageData() {
   return DEFAULT_ABOUT_DATA;
 }
 
+const renderPersonImage = (imageUrl: string, altText: string) => {
+  if (!imageUrl) {
+    return (
+      <div className="flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 text-slate-400 w-full h-full">
+        <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </div>
+    );
+  }
+  
+  const resolvedSrc = imageUrl.startsWith("/") ? imageUrl : `/${imageUrl}`;
+  return (
+    <Image
+      src={resolvedSrc}
+      alt={altText}
+      fill
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="object-cover object-top hover:scale-105 transition-transform duration-500"
+    />
+  );
+};
+
 export default async function AboutPage() {
   const data = await getAboutPageData();
+
+  // Self-healing mapping to ensure all 9 predefined personnel roles exist
+  const coordinatorsList = DEFAULT_ABOUT_DATA.coordinators.map((role) => {
+    const existing = data.coordinators.find(
+      (c: any) => c.role === role.role || 
+      (role.role === "Coordinator 9-10" && c.role === "Secondary Level Coordinator") || 
+      (role.role === "Coordinator 6-8" && c.role === "Basic Level Coordinator")
+    );
+    return {
+      name: existing?.name || role.name,
+      role: role.role,
+      qualification: existing?.qualification || role.qualification,
+      image_url: existing?.image_url || role.image_url,
+      level_label: existing?.level_label || role.level_label,
+      message_paragraphs: existing?.message_paragraphs && existing.message_paragraphs.length > 0 
+        ? existing.message_paragraphs 
+        : role.message_paragraphs
+    };
+  });
+
+  const principalInfo = coordinatorsList.find(c => c.role === "Principal") || {
+    name: data.principal.name,
+    qualification: data.principal.qualification,
+    image_url: data.principal.image_url,
+    message_paragraphs: data.principal.message_paragraphs
+  };
+
+  // Filter messages for coordinators who are NOT the principal and have message paragraphs
+  const messageCoordinators = coordinatorsList.filter(
+    (c) => c.role !== "Principal" && c.message_paragraphs && c.message_paragraphs.length > 0
+  );
 
   return (
     <>
@@ -221,13 +337,13 @@ export default async function AboutPage() {
               <span className="mb-3 inline-flex min-h-7 items-center rounded-full bg-[#3eaea6]/10 px-3 py-0.5 text-xs font-bold uppercase text-[#3eaea6]">
                 Principal's Message
               </span>
-              <h2 className={`${title} mb-2`}>Message from {data.principal.name}</h2>
+              <h2 className={`${title} mb-2`}>Message from {principalInfo.name}</h2>
               <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-6">
-                {data.principal.qualification}
+                {principalInfo.qualification}
               </p>
               
               <div className="text-sm leading-8 text-slate-600 space-y-4">
-                {data.principal.message_paragraphs.map((p: string, idx: number) => (
+                {principalInfo.message_paragraphs.map((p: string, idx: number) => (
                   <p key={idx}>{p}</p>
                 ))}
               </div>
@@ -235,17 +351,12 @@ export default async function AboutPage() {
 
             {/* Photo on Right - Contain in Box with Teal Border */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-[360px] aspect-[3/4] rounded-xl bg-white border-[6px] border-[#3eaea6] shadow-xl p-2 flex flex-col justify-between">
-                <div className="relative w-full h-[85%]">
-                  <Image
-                    src={data.principal.image_url}
-                    alt={`Principal ${data.principal.name}`}
-                    fill
-                    className="object-contain object-center rounded-lg"
-                  />
+              <div className="relative w-full max-w-[360px] aspect-[3/4] rounded-xl bg-white border-[6px] border-[#3eaea6] shadow-xl p-2 flex flex-col justify-between overflow-hidden">
+                <div className="relative w-full h-[85%] bg-slate-50 rounded-lg overflow-hidden">
+                  {renderPersonImage(principalInfo.image_url, `Principal ${principalInfo.name}`)}
                 </div>
                 <div className="bg-slate-50/80 rounded-lg p-2.5 text-center border-t border-slate-100">
-                  <h4 className="font-bold text-sm text-[#10233f]">{data.principal.name}</h4>
+                  <h4 className="font-bold text-sm text-[#10233f]">{principalInfo.name}</h4>
                   <p className="text-[11px] font-semibold text-[#ff7b3b]">Principal</p>
                 </div>
               </div>
@@ -255,60 +366,103 @@ export default async function AboutPage() {
       </section>
 
       {/* Coordinators Section (Alternating Photo Placements, Big & Full Photos) */}
-      <section className="py-[85px] bg-slate-50 border-t border-slate-200/50">
+      {messageCoordinators.length > 0 && (
+        <section className="py-[85px] bg-slate-50 border-t border-slate-200/50">
+          <div className={container}>
+            <div className="mb-14 text-center max-w-[650px] mx-auto">
+              <span className="mb-3 inline-flex min-h-7 items-center rounded-full bg-[#d9fffc] px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]">
+                Academic Messages
+              </span>
+              <h2 className={title}>Coordinators' Messages</h2>
+              <p className="mt-3 text-sm text-slate-500">
+                Messages from the coordinators managing academic quality and student-centric workflows.
+              </p>
+            </div>
+
+            <div className="space-y-20">
+              {messageCoordinators.map((coord: any, idx: number) => {
+                const isEven = idx % 2 === 0;
+                return (
+                  <article 
+                    key={coord.name} 
+                    className={`grid gap-12 items-center max-lg:grid-cols-1 ${isEven ? 'grid-cols-[0.8fr_1.2fr]' : 'grid-cols-[1.2fr_0.8fr]'}`}
+                  >
+                    {/* Photo Side */}
+                    <div className={`flex justify-center ${isEven ? 'order-1 max-lg:order-2' : 'order-2 max-lg:order-2'}`}>
+                      <div className="relative w-full max-w-[360px] aspect-[3/4] rounded-lg overflow-hidden shadow-xl border border-slate-200 bg-white">
+                        {renderPersonImage(coord.image_url, `${coord.role} ${coord.name}`)}
+                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 text-white">
+                          <h4 className="font-bold text-base">{coord.name}</h4>
+                          <p className="text-xs text-slate-300">{coord.role}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Text Side */}
+                    <div className={isEven ? 'order-2 max-lg:order-1' : 'order-1 max-lg:order-1'}>
+                      <span className={`text-xs font-black uppercase tracking-wider mb-2 block ${isEven ? 'text-[#ff7b3b]' : 'text-[#3eaea6]'}`}>
+                        {coord.level_label || coord.role}
+                      </span>
+                      <h3 className="text-2xl font-bold text-[#10233f] mb-1">{coord.name}</h3>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-6">
+                        {coord.qualification}
+                      </p>
+                      <div className="text-sm leading-8 text-slate-600 space-y-4">
+                        {coord.message_paragraphs.map((p: string, pIdx: number) => (
+                          <p key={pIdx}>{p}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Leadership & Coordinator Grid Panel */}
+      <section className="py-[85px] bg-white border-t border-slate-200/30">
         <div className={container}>
           <div className="mb-14 text-center max-w-[650px] mx-auto">
-            <span className="mb-3 inline-flex min-h-7 items-center rounded-full bg-[#d9fffc] px-3 py-1 text-xs font-bold uppercase text-[#3eaea6]">
-              Academic Leadership
+            <span className="mb-3 inline-flex min-h-7 items-center rounded-full bg-[#d9fffc] px-3.5 py-1 text-xs font-bold uppercase text-[#3eaea6]">
+              Leadership Directory
             </span>
-            <h2 className={title}>Coordinators' Messages</h2>
+            <h2 className={title}>Key Personnel & Coordinators</h2>
             <p className="mt-3 text-sm text-slate-500">
-              Meet the coordinators managing academic quality and student-centric workflows.
+              Meet the leadership team and academic coordinators guiding Eureka's departments.
             </p>
           </div>
 
-          <div className="space-y-20">
-            {data.coordinators.map((coord: any, idx: number) => {
-              const isEven = idx % 2 === 0;
-              return (
-                <article 
-                  key={coord.name} 
-                  className={`grid gap-12 items-center max-lg:grid-cols-1 ${isEven ? 'grid-cols-[0.8fr_1.2fr]' : 'grid-cols-[1.2fr_0.8fr]'}`}
-                >
-                  {/* Photo Side */}
-                  <div className={`flex justify-center ${isEven ? 'order-1 max-lg:order-2' : 'order-2 max-lg:order-2'}`}>
-                    <div className="relative w-full max-w-[360px] aspect-[3/4] rounded-lg overflow-hidden shadow-xl border border-slate-200 bg-white">
-                      <Image
-                        src={coord.image_url}
-                        alt={`${coord.role} ${coord.name}`}
-                        fill
-                        className="object-cover object-top"
-                      />
-                      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-5 text-white">
-                        <h4 className="font-bold text-base">{coord.name}</h4>
-                        <p className="text-xs text-slate-300">{coord.role}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Text Side */}
-                  <div className={isEven ? 'order-2 max-lg:order-1' : 'order-1 max-lg:order-1'}>
-                    <span className={`text-xs font-black uppercase tracking-wider mb-2 block ${isEven ? 'text-[#ff7b3b]' : 'text-[#3eaea6]'}`}>
-                      {coord.level_label || coord.role}
-                    </span>
-                    <h3 className="text-2xl font-bold text-[#10233f] mb-1">{coord.name}</h3>
-                    <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-6">
-                      {coord.qualification}
+          <div className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-sm:grid-cols-1">
+            {coordinatorsList.map((person: any) => (
+              <div 
+                key={person.role} 
+                className="bg-slate-50 rounded-xl border border-slate-200/50 shadow-sm hover:shadow-md hover:border-[#3eaea6]/35 overflow-hidden transition-all duration-300 flex flex-col group"
+              >
+                {/* Photo Container */}
+                <div className="relative aspect-[3/4] w-full bg-slate-100 overflow-hidden">
+                  {renderPersonImage(person.image_url, person.name)}
+                </div>
+                
+                {/* Profile Details */}
+                <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <h4 className="font-bold text-[#10233f] text-base group-hover:text-[#3eaea6] transition-colors leading-snug">
+                      {person.name}
+                    </h4>
+                    <p className="text-[11px] text-[#ff7b3b] font-black uppercase tracking-wide mt-1.5">
+                      {person.role}
                     </p>
-                    <div className="text-sm leading-8 text-slate-600 space-y-4">
-                      {coord.message_paragraphs.map((p: string, pIdx: number) => (
-                        <p key={pIdx}>{p}</p>
-                      ))}
-                    </div>
                   </div>
-                </article>
-              );
-            })}
+                  {person.qualification && (
+                    <p className="text-xs text-slate-500 mt-4 pt-3 border-t border-slate-200/45 leading-normal">
+                      {person.qualification}
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
